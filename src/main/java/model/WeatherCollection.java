@@ -3,6 +3,8 @@
  *******************************************************************************/
 package model;
 
+import java.util.Vector;
+
 // Start of user code (user defined imports)
 
 // End of user code
@@ -16,12 +18,12 @@ public class WeatherCollection {
 	/**
 	 * Description of the property controllers.
 	 */
-	public HashSet<Controller> controllers = new HashSet<Controller>();
+	//public Vector<Controller> controllers = new Vector<Controller>();
 
 	/**
 	 * Description of the property weathers.
 	 */
-	public HashSet<Weather> weathers = new HashSet<Weather>();
+	public Vector<Weather> weathers = new Vector<Weather>();
 
 	// Start of user code (user defined attributes for WeatherCollection)
 
@@ -40,7 +42,7 @@ public class WeatherCollection {
 	 * Description of the method setWeather.
 	 * @param ArrayList<Weather> 
 	 */
-	public void setWeather(Object ArrayList<Weather>) {
+	public void setWeather(Vector<Weather> wet) {
 		// Start of user code for method setWeather
 		// End of user code
 	}
@@ -52,15 +54,12 @@ public class WeatherCollection {
 	 * Returns controllers.
 	 * @return controllers 
 	 */
-	public HashSet<Controller> getControllers() {
-		return this.controllers;
-	}
 
 	/**
 	 * Returns weathers.
 	 * @return weathers 
 	 */
-	public HashSet<Weather> getWeathers() {
+	public Vector<Weather> getWeathers() {
 		return this.weathers;
 	}
 

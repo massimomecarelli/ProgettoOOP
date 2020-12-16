@@ -1,12 +1,14 @@
-package src.main.java.Parser;
+package Parser;
 
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import java.util.Vector;
 
-import main.java.model.Weather;
+import model.Weather;
 
 /**
  * Description of JsonParser.
@@ -18,8 +20,9 @@ public class JsonParser {
 	 * Description of the property weatherServices.
 	 */
 	//public Vector<WeatherService> weatherServices = new Vector<WeatherService>();
-	/*private JSONArray Jarray = null;*/
-	private JSONObject Jobject = null;
+	private JSONArray Jarray;
+	private JSONObject Jobject;
+	private Vector<Weather> weather=new Vector<Weather>();
 	private Weather wet;
 	
 	/**
@@ -28,36 +31,53 @@ public class JsonParser {
 	public JsonParser() {
 		wet=new Weather();
 	}
+	/**
+	 * 
+	 * @param dt
+	 * @param list
+	 * @param city
+	 * @throws JSONException
+	 */
+	
+	public void setData(JSONArray dt, JSONObject city) throws JSONException {
+		for(int i=0;i<dt.length();i++){
+			JSONObject list=dt.getJSONObject(i).getJSONObject("main");
+			
+			wet.setNome((String)city.get("name")); //salva il nome della citta
+			wet.setGiorno((int)dt.getJSONObject(i).get("dt"));//salva il giorno
+			wet.setPressione((int)list.get("pressure")); //salva la pressione  
+			wet.setTemp((Double)list.get("temp")); //salva la temperatura percepita
+			wet.setTempMax((Double)list.get("temp_max")); //salva la temperatura massima	
+			wet.setTempMin((Double)list.get("temp_min")); //salva la temperatura minima
+			
+			weather.add(wet);
+		}
+	}
 
 	/**
-	 * Description of the method readFile.
+	 * Questo metodo si occupa di effettuare la richiesta all'API di OpenWeather, dopo aver ricevuto risposta
+	 * il metodo popolera il Vector weather tramite il metodo setData
 	 * @param obj 
 	 * @param url 
 	 */
-	public void readAPI(boolean obj, String url) {
+	public void readAPI(String url) {
+		RestTemplate restTemplate = new RestTemplate();
 		try {
-			RestTemplate restTemplate = new RestTemplate();
-			
-			Jobject=restTemplate.getForObject(url,JSONObject.class); //tramite restTemplate effettua la richiesta
-																	 //ad OpenWeather e salva il risultato 
-																	 //in un oggetto di tipo JSONObject
-			
-			wet.setNome((String)Jobject.get("name")); //salva il nome della citta 
-			wet.setGiorno((long) Jobject.get("dt")); //salva il giorno
-			wet.setPressione((double) Jobject.get("pressure")); //salva la pressione 
-			wet.setTemp((double) Jobject.get("temp")); //salva la temperatura percepita
-			wet.setTempMax((double) Jobject.get("temp_min")); //salva la temperatura massima	
-			wet.setTempMin((double) Jobject.get("temp_max")); //salva la temperatura minima
-			
-		} catch (ResponseStatusException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
+			String temp=restTemplate.getForObject(url,String.class); //tramite restTemplate effettua la richiesta
+																		 //ad OpenWeather e salva il risultato 
+																		 //in un oggetto di tipo JSONObject
+			Jobject=new JSONObject(temp);
+			JSONObject city=Jobject.getJSONObject("city");
+			JSONArray dt=Jobject.getJSONArray("list");
+				
+			setData(dt,city);
+		} catch (ResponseStatusException | JSONException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public Weather getWeather() {
-		return wet;
+	public Vector<Weather> getWeather() {
+		return weather;
 	}
 
 }

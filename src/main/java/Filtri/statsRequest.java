@@ -3,6 +3,9 @@
  *******************************************************************************/
 package Filtri;
 
+import java.util.Vector;
+import model.WeatherCollection;
+
 // Start of user code (user defined imports)
 
 // End of user code
@@ -16,12 +19,12 @@ public class statsRequest {
 	/**
 	 * Description of the property .
 	 */
-	public Integer=Integer.valueOf(0);
+	public int Integer;
 
 	/**
 	 * Description of the property weatherCollections.
 	 */
-	public HashSet<WeatherCollection> weatherCollections = new HashSet<WeatherCollection>();
+	public Vector<WeatherCollection> weatherCollections = new Vector<WeatherCollection>();
 
 	// Start of user code (user defined attributes for statsRequest)
 
@@ -64,23 +67,23 @@ public class statsRequest {
 	 * Returns .
 	 * @return  
 	 */
-	public Integer get() {
-		return this.;
+	public int get() {
+		return this.Integer;
 	}
 
 	/**
 	 * Sets a value to attribute . 
 	 * @param new 
 	 */
-	public void set(Integer new) {
-	    this. = new;
+	public void set(int newInteger) {
+	    this.Integer = newInteger;
 	}
 
 	/**
 	 * Returns weatherCollections.
 	 * @return weatherCollections 
 	 */
-	public HashSet<WeatherCollection> getWeatherCollections() {
+	public Vector<WeatherCollection> getWeatherCollections() {
 		return this.weatherCollections;
 	}
 

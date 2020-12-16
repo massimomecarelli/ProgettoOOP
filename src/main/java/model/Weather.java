@@ -19,7 +19,7 @@ public class Weather {
 	/**
 	 * Description of the property giorno.
 	 */
-	private long giorno = 0;
+	private int giorno = 0;
 
 	/**
 	 * Description of the property Nome.
@@ -79,7 +79,7 @@ public class Weather {
 		return TempPercepita;
 	}
 	
-	public double getGiorno() {
+	public int getGiorno() {
 		return giorno;
 	}
 	
@@ -87,7 +87,7 @@ public class Weather {
 		this.Nome=nome;
 	}
 	
-	public void setGiorno(long giorno) {
+	public void setGiorno(int giorno) {
 		this.giorno=giorno;
 	}
 	
