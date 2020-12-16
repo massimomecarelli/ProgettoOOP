@@ -4,11 +4,13 @@
 package Filtri;
 
 import java.util.Vector;
+
+import Parser.JsonParser;
 import model.WeatherCollection;
+import Service.*;
+import model.Weather;
 
-// Start of user code (user defined imports)
 
-// End of user code
 
 /**
  * Description of statsRequest.
@@ -16,75 +18,39 @@ import model.WeatherCollection;
  * @author Massimo
  */
 public class statsRequest {
-	/**
-	 * Description of the property .
-	 */
-	public int Integer;
-
-	/**
-	 * Description of the property weatherCollections.
-	 */
-	public Vector<WeatherCollection> weatherCollections = new Vector<WeatherCollection>();
-
-	// Start of user code (user defined attributes for statsRequest)
-
-	// End of user code
+	
 
 	/**
 	 * The constructor.
 	 */
 	public statsRequest() {
-		// Start of user code constructor for statsRequest)
-		super();
-		// End of user code
+		
 	}
 
 	/**
-	 * Description of the method getStats.
-	 * @param nome 
-	 * @param periodo 
+	 * Description of the method getAll.
+	 * @param lat
+	 * @param lon 
+	 * @param cnt 
 	 */
-	public void getStats(String nome, int periodo) {
-		// Start of user code for method getStats
-		// End of user code
+	public Vector<Weather> getAll(String key, double lat, double lon, int cnt) {
+		Vector<Weather> weather = new Vector<Weather>;
+		JsonParser parser = new JsonParser();
+		weather = parser.readFile(lat, lon, cnt);
+		return weather;
 	}
 
 	/**
-	 * Description of the method getStats.
-	 * @param citta 
-	 * @param periodo 
-	 * @param stat 
+	 * Description of the method getDato.
+	 * @param lat 
+	 * @param lon 
+	 * @param cnt 
+	 * @param dato
 	 */
-	public void getStats(String citta, int periodo, String stat) {
-		// Start of user code for method getStats
-		// End of user code
-	}
-
-	// Start of user code (user defined methods for statsRequest)
-
-	// End of user code
-	/**
-	 * Returns .
-	 * @return  
-	 */
-	public int get() {
-		return this.Integer;
-	}
-
-	/**
-	 * Sets a value to attribute . 
-	 * @param new 
-	 */
-	public void set(int newInteger) {
-	    this.Integer = newInteger;
-	}
-
-	/**
-	 * Returns weatherCollections.
-	 * @return weatherCollections 
-	 */
-	public Vector<WeatherCollection> getWeatherCollections() {
-		return this.weatherCollections;
+	public void getDato(double lat, double lon, int cnt) {
+		JsonParser parser = new JsonParser();
+		
+		parser.readFile(lat, lon, cnt);
 	}
 
 }
