@@ -7,16 +7,8 @@ package Filtri;
  * @author Massimo
  *
  */
-public class StatsAverageImpl {
-	package Filtri;
 
 	import java.util.Vector;
-	import org.json.*;
-
-	import Parser.JsonParser;
-	import model.WeatherCollection;
-	import Service.*;
-	import model.Weather;
 
 
 	public class StatsAverageImpl implements StatsAverageInterface{
@@ -32,5 +24,3 @@ public class StatsAverageImpl {
 		}
 
 	}
-
-}
