@@ -1,6 +1,7 @@
 package Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Vector;
@@ -55,7 +56,7 @@ public class utility {
 
 	public Vector<Weather> setData(JSONArray dt, JSONObject city) throws JSONException {
 		Vector<Weather> weather=new Vector<Weather>();
-		LocalDate date=LocalDate.now();
+		LocalDateTime date=LocalDateTime.now();
 	    
 		for(int i=0;i<dt.length();i++){
 			Weather wet=new Weather();
@@ -70,7 +71,8 @@ public class utility {
 			wet.setTemp(list.getDouble("temp")); //salva la temperatura percepita
 			wet.setTempMax(list.getDouble("temp_max")); //salva la temperatura massima	
 			wet.setTempMin(list.getDouble("temp_min")); //salva la temperatura minima
-			wet.setDataLettura(date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+			wet.setDataLettura(date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy, HH-mm-ss")));
+			
 			weather.add(wet);
 		}
 		return weather;
