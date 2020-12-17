@@ -1,5 +1,8 @@
 package model;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 /**
  * Description of Weather.
  * 
@@ -7,38 +10,55 @@ package model;
  */
 public class Weather {
 	/**
-	 * Description of the property Pressione.
+	 * Valorori che indicano le coordinate cartesiane di una città.
 	 */
-	private double Pressione = 0;
+	private double lat=0;
+	private double lon=0;
+	/**
+	 * Valore che indica la pressione in un giorno.
+	 */
+	private int Pressione = 0;
 
 	/**
-	 * Description of the property TempPercepita.
+	 * Valore che indica la temperatura percepita in un giorno.
 	 */
 	private double TempPercepita = 0;
 
 	/**
-	 * Description of the property giorno.
+	 * Valore che indica il giorno.
 	 */
 	private int giorno = 0;
 
 	/**
-	 * Description of the property Nome.
+	 * Valore che indica il nome della città.
 	 */
 	private String Nome = "";
 
 	/**
-	 * Description of the property TempMax.
+	 * Valore che indica la temperatura massima raggiungibile in un giorno.
 	 */
 	private double TempMax = 0;
 
 	/**
-	 * Description of the property TempMin.
+	 * Valore che indica la temperatura minima raggiungibile in un giorno.
 	 */
 	private double TempMin = 0;
 	
+	/**
+	 * Valore che indica la data in cui è stata fatta la lettura
+	 */
+	private String dataLettura;
+	
 	public Weather() {
 	}
-
+	
+	public double getLat() {
+		return lat;
+	}
+	
+	public double getLon() {
+		return lon;
+	}
 	/**
 	 * Description of the method getTempMin.
 	 * @return 
@@ -59,7 +79,7 @@ public class Weather {
 	 * Description of the method getPressione.
 	 * @return 
 	 */
-	public double getPressione() {
+	public int getPressione() {
 		return Pressione;
 	}
 
@@ -79,8 +99,20 @@ public class Weather {
 		return TempPercepita;
 	}
 	
+	public String getDataLettura() {
+		return dataLettura;
+	}
+	
 	public int getGiorno() {
 		return giorno;
+	}
+	
+	public void setLat(double lat) {
+		this.lat=lat;
+	}
+	
+	public void setLon(double lon) {
+		this.lon=lon;
 	}
 	
 	public void setNome(String nome) {
@@ -99,11 +131,15 @@ public class Weather {
 		this.TempMax=tempMax;
 	}
 	
-	public void setPressione(double pressione) {
+	public void setPressione(int pressione) {
 		this.Pressione=pressione;
 	}
 	
 	public void setTemp(double temp) {
 		this.TempPercepita=temp;
 	}
-}
+	
+	public void setDataLettura(String dataLettura) {
+		this.dataLettura=dataLettura;
+	}
+}	
