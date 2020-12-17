@@ -53,7 +53,9 @@ public class StatsRequest {
 		JsonParser parser = new JsonParser();
 		weather = parser.readFile(lat, lon, cnt);
 		JSONObject Obj = new JSONObject();
-		Vector<Double> tTot, tPerc;
+		Vector<Double> tTot = new Vector<Double>();
+		Vector<Double> tPerc = new Vector<Double>();
+		try {
 		for (int i=1; i<=cnt; i++) {
 			JSONObject obj = new JSONObject();
 			obj.put("TempMax", weather.get(i-1).getTempMax());
@@ -67,6 +69,7 @@ public class StatsRequest {
 		StatsAverageImpl average=new StatsAverageImpl();
 		Obj.put("Media temperature", average.getMedia(tTot));
 		Obj.put("Media temperatura percepita", average.getMedia(tPerc));
+		}catch(JSONException e) {e.printStackTrace();}
 		return Obj;
 	}
 	
@@ -82,7 +85,9 @@ public class StatsRequest {
 		JSONObject obj = new JSONObject();
 		weather = parser.readFile(lat, lon, cnt);
 		for(int i=0; i<weather.size(); i++)
-			obj.put("Pressione", weather.get(i).getPressione());	
+			try {
+			obj.put("Pressione", weather.get(i).getPressione());
+			}catch(JSONException e) {e.printStackTrace();}
 		return obj;
 	}
 
