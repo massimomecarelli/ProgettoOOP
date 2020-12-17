@@ -44,16 +44,15 @@ public class WeatherService {
 	 * Description of the method updateWeather.
 	 */
 	@GetMapping("/weather")
-	public Weather getWeather(
+	public Vector<Weather> getWeather(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
 			@RequestParam(value="cnt", defaultValue="1")int cnt) {
-		if (cnt!=1) obj=false; //caso in cui si vogliano ricevere più giorni
-								//quindi si richiede un JSONArray invece di un JSONObject
+		
 		JsonParser parser = new JsonParser(); //creo un JsonParser
 		
 		//leggo dall'API, passando il tipo di Json e l'url al parser
-		parser.readAPI(obj,"http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+
+		parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+
 				"&appid="+key+"&cnt="+cnt+"&units=metric&lang=it");
 		//ricevo in uscita i dati per quella determinata città
 		

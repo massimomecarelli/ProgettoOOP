@@ -35,7 +35,7 @@ public class StatsRequest {
 	 * @param lon 
 	 * @param cnt 
 	 */
-	public Vector<Weather> getAll(String key, double lat, double lon, int cnt) {
+	public Vector<Weather> getAll(double lat, double lon, int cnt) {
 		Vector<Weather> weather = new Vector<Weather>();
 		JsonParser parser = new JsonParser();
 		weather = parser.readFile(lat, lon, cnt);
@@ -56,17 +56,17 @@ public class StatsRequest {
 		Vector<Double> tTot, tPerc;
 		for (int i=1; i<=cnt; i++) {
 			JSONObject obj = new JSONObject();
-			obj.put("TempMax", weather.getTempMax());
-			obj.put("TempMin",weather.getTempMin());
-			obj.put("TempPercepita",weather.getTempPercepita());
+			obj.put("TempMax", weather.get(i-1).getTempMax());
+			obj.put("TempMin",weather.get(i-1).getTempMin());
+			obj.put("TempPercepita",weather.get(i-1).getTempPercepita());
 			Obj.put("giorno "+i, obj);
-			tTot.add(weather.getTempMax());
-			tTot.add(weather.getTempMin());
-			tPerc.add(weather.getTempPerc());
+			tTot.add(weather.get(i-1).getTempMax());
+			tTot.add(weather.get(i-1).getTempMin());
+			tPerc.add(weather.get(i-1).getTempPercepita());
 		}
 		StatsAverageImpl average=new StatsAverageImpl();
 		Obj.put("Media temperature", average.getMedia(tTot));
-		Obj.put("Media temperatura percepita", average.getMedia(tPerc);
+		Obj.put("Media temperatura percepita", average.getMedia(tPerc));
 		return Obj;
 	}
 	
@@ -81,7 +81,8 @@ public class StatsRequest {
 		JsonParser parser = new JsonParser();
 		JSONObject obj = new JSONObject();
 		weather = parser.readFile(lat, lon, cnt);
-		obj.put("Pressione",weather.getPressione());	
+		for(int i=0; i<weather.size(); i++)
+			obj.put("Pressione", weather.get(i).getPressione());	
 		return obj;
 	}
 
