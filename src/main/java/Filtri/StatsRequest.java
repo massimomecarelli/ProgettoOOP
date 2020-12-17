@@ -73,7 +73,6 @@ public class StatsRequest {
 		return Obj;
 	}
 	
-	
 	/**
 	 * Description of the method getPress.
 	 * @param lat 
