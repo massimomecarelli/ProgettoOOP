@@ -39,7 +39,6 @@ public class JsonParser {
 		wet=new Weather();
 	}
 	
-
 	/**
 	 * Questo metodo si occupa di effettuare la richiesta all'API di OpenWeather, dopo aver ricevuto risposta
 	 * il metodo popolera il Vector weather, da fortnire in output all'utente, tramite il metodo setData.
@@ -53,7 +52,6 @@ public class JsonParser {
 			String temp=restTemplate.getForObject(url,String.class); //tramite restTemplate effettua la richiesta
 																		 //ad OpenWeather e salva il risultato 
 																		 //in un oggetto di tipo JSONObject
-			System.out.println(temp);
 			Jobject=new JSONObject(temp);
 			JSONObject city=Jobject.getJSONObject("city");
 			JSONArray dt=Jobject.getJSONArray("list");
@@ -73,15 +71,18 @@ public class JsonParser {
 	 */
 	public void writeFile() {
 		try {
-			PrintWriter file_output = new PrintWriter(new BufferedWriter(new FileWriter("src/main/resources/Weather.json",true)));
-			
-			for(int i=0;i<weather.size();i++) {
-				Jobject=util.fillObject(weather.get(i));
-				file_output.println(Jobject);
+			boolean check=util.checkTime(weather);
+			if(check) {
+				PrintWriter file_output = new PrintWriter(new BufferedWriter(new FileWriter("src/main/resources/Weather.json",true)));
+				
+				for(int i=0;i<weather.size();i++) {
+					Jobject=util.fillObject(weather.get(i));
+					file_output.println(Jobject);
+				}
+				
+				System.out.println("File salvato!");
+				file_output.close();
 			}
-			
-			System.out.println("File salvato!");
-			file_output.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Errore salvataggio file!");
@@ -126,14 +127,5 @@ public class JsonParser {
 		}
 		return weather;
 	}
-	
-	/**
-	 * Metodo per restituire un vettore di weather
-	 * @return
-	 */
-	
-	/*public Vector<Weather> getWeather() {
-		return weather;
-	}*/
 
 }
