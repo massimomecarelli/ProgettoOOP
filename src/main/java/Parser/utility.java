@@ -1,9 +1,14 @@
 package Parser;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.Vector;
 
 import org.json.JSONArray;
@@ -17,19 +22,47 @@ public class utility {
 	public utility() {
 		
 	}
-	
+	public boolean checkTime(Vector<Weather> weather){
+		boolean check=true;
+		File file=new File("src/main/resources/Weather.json");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm:ss");
+		int day= LocalDateTime.now().getDayOfMonth();
+		try {
+			
+			if(file.exists()) {
+				Scanner file_input = new Scanner(new BufferedReader(new FileReader(file)));
+				for(int i=0;i<weather.size();i++) {
+					while(file_input.hasNextLine()) {
+						JSONObject Jobject=new JSONObject(file_input.nextLine());
+						if(Jobject.getDouble("lat")==weather.get(i).getLat()&&
+						   Jobject.getDouble("lon")==weather.get(i).getLon()){
+							LocalDateTime dateTime = LocalDateTime.parse(weather.get(i).getDataLettura(), formatter);
+							if((day-dateTime.getDayOfMonth()==0)) {
+								check=false;
+							}
+						}
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return true;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return check;
+	}
 	public Weather fillWet(JSONObject Jobject) {
 		Weather wet=new Weather();
-		
 		try {
-			wet.setNome(Jobject.getString("name"));
-			wet.setLon(Jobject.getDouble("lon"));
-			wet.setGiorno(Jobject.getInt("dt"));
-			wet.setTemp(Jobject.getDouble("temp"));
-			wet.setTempMin(Jobject.getDouble("tempMin"));
-			wet.setTempMax(Jobject.getDouble("tempMax"));
-			wet.setPressione(Jobject.getInt("pressure"));
-			wet.setDataLettura(Jobject.getString("date"));
+			wet.setNome((String)Jobject.get("nome"));
+			wet.setLon((Double)Jobject.get("lon"));
+			wet.setGiorno((Integer)Jobject.get("dt"));
+			wet.setTemp((Double)Jobject.get("temp"));
+			wet.setTempMin((Double)Jobject.get("tempMin"));
+			wet.setTempMax((Double)Jobject.get("tempMax"));
+			wet.setPressione((Integer)Jobject.get("pressure"));
+			wet.setDataLettura((String)Jobject.get("date"));
 		}catch(JSONException e) {
 			e.printStackTrace();
 		}
@@ -63,7 +96,6 @@ public class utility {
 			JSONObject list=dt.getJSONObject(i).getJSONObject("main");
 			
 			wet.setNome(city.getString("name")); //salva il nome della citta
-			System.out.println(wet.getNome());
 			wet.setLat(city.getJSONObject("coord").getDouble("lat")); //salva latitudine della città
 			wet.setLon(city.getJSONObject("coord").getDouble("lon")); //salva longitudine della città
 			wet.setGiorno(dt.getJSONObject(i).getInt("dt"));//salva il giorno
@@ -71,7 +103,7 @@ public class utility {
 			wet.setTemp(list.getDouble("temp")); //salva la temperatura percepita
 			wet.setTempMax(list.getDouble("temp_max")); //salva la temperatura massima	
 			wet.setTempMin(list.getDouble("temp_min")); //salva la temperatura minima
-			wet.setDataLettura(date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy, HH-mm-ss")));
+			wet.setDataLettura(date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm:ss")));
 			
 			weather.add(wet);
 		}

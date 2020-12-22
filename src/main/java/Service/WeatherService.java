@@ -65,7 +65,7 @@ public class WeatherService {
 	 * 
 	 */
 	@RequestMapping(value="/weather", method=RequestMethod.GET)
-	public JsonParser getWeather(
+	public Vector<Weather> getWeather(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
 			@RequestParam(value="cnt", defaultValue="1")int cnt) {
@@ -73,11 +73,9 @@ public class WeatherService {
 		JsonParser parser = new JsonParser(); //creo un JsonParser
 		
 		//leggo dall'API, passando il tipo di Json e l'url al parser
-		parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+
-				"&appid="+key+"&cnt="+cnt+"&units=metric&lang=it");
-		//ricevo in uscita i dati per quella determinata città
 		
-		return parser;
+		return parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+
+				"&appid="+key+"&cnt="+cnt+"&units=metric&lang=it");
 	}
 	
 	//statistiche riguardo previsioni azzeccate in generale 

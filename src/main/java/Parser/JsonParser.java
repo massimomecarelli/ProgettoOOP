@@ -61,6 +61,7 @@ public class JsonParser {
 			e.printStackTrace();
 		}
 		writeFile();
+		System.out.println(weather);
 		return weather;
 	}
 	
@@ -71,8 +72,7 @@ public class JsonParser {
 	 */
 	public void writeFile() {
 		try {
-			boolean check=util.checkTime(weather);
-			if(check) {
+			if(util.checkTime(weather)) {
 				PrintWriter file_output = new PrintWriter(new BufferedWriter(new FileWriter("src/main/resources/Weather.json",true)));
 				
 				for(int i=0;i<weather.size();i++) {
