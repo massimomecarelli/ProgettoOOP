@@ -1,36 +1,32 @@
-/*******************************************************************************
- * 2020, All rights reserved.
- *******************************************************************************/
 package Filtri;
 
 import java.util.Vector;
 import org.json.*;
 
 import Parser.JsonParser;
-import model.WeatherCollection;
 import Service.*;
-import model.Weather;
 import Filtri.StatsAverageImpl;
+import model.*;
 
 
 
 /**
- * Description of statsRequest.
- * 
  * @author Massimo
+ * 
+ * Descrizione di StatsRequest.
  */
 public class StatsRequest {
 	
 
 	/**
-	 * The constructor.
+	 * Costruttore
 	 */
 	public StatsRequest() {
 		
 	}
 
 	/**
-	 * Description of the method getAll.
+	 * Descrizione del metodo getAll.
 	 * @param lat
 	 * @param lon 
 	 * @param cnt 
@@ -43,52 +39,65 @@ public class StatsRequest {
 	}
 
 	/**
-	 * Description of the method getTemperature.
+	 * Descrizione del metodo getTemperature.
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
 	 */
-	public JSONObject getTemperature(double lat, double lon, int cnt) {
+	public WeatherCollection getTemperatureAvrg(double lat, double lon, int cnt) {
 		Vector<Weather> weather = new Vector<Weather>();
 		JsonParser parser = new JsonParser();
 		weather = parser.readFile(lat, lon, cnt);
-		JSONObject Obj = new JSONObject();
+		StatsAverageImpl average=new StatsAverageImpl();
+		WeatherCollection collection = new WeatherCollection();
 		Vector<Double> tTot = new Vector<Double>();
 		Vector<Double> tPerc = new Vector<Double>();
+		
 		try {
-		for (int i=1; i<=cnt; i++) {
-			JSONObject obj = new JSONObject();
-			obj.put("TempMax", weather.get(i-1).getTempMax());
-			obj.put("TempMin",weather.get(i-1).getTempMin());
-			obj.put("TempPercepita",weather.get(i-1).getTempPercepita());
-			Obj.put("giorno "+i, obj);
-			tTot.add(weather.get(i-1).getTempMax());
-			tTot.add(weather.get(i-1).getTempMin());
-			tPerc.add(weather.get(i-1).getTempPercepita());
+		for (int i=0; i<cnt; i++) {
+			tTot.add(weather.get(i).getTempMax());
+			tTot.add(weather.get(i).getTempMin());
+			tPerc.add(weather.get(i).getTempPercepita());
 		}
-		StatsAverageImpl average=new StatsAverageImpl();
-		Obj.put("Media temperature", average.getMedia(tTot));
-		Obj.put("Media temperatura percepita", average.getMedia(tPerc));
-		}catch(JSONException e) {e.printStackTrace();}
-		return Obj;
+		collection.setTempMedia(average.getMedia(tTot));
+		collection.setTempMediaPerc(average.getMedia(tPerc));
+		}catch(Exception e) {e.printStackTrace();}
+		return collection;
+	}
+
+	public Vector<WeatherTemp> getTemperature(double lat, double lon, int cnt) {
+		//aggiunta di un vettore WeatherCollection per prendere valori di media
+		Vector<WeatherTemp> weatherTemp = new Vector<WeatherTemp>();
+		Vector<Weather> weather = new Vector<Weather>();
+		JsonParser parser = new JsonParser();
+		weather = parser.readFile(lat, lon, cnt);
+		for (int i=0; i<weather.size(); i++){
+			weatherTemp.get(i).setter(weather.get(i));
+		}
+		return weatherTemp;
 	}
 	
+	
 	/**
-	 * Description of the method getPress.
+	 * Descrizione del metodo getPress.
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
 	 */
-	public JSONObject getPress(double lat, double lon, int cnt) {
+	public Vector<WeatherPress> getPress(double lat, double lon, int cnt) {
 		Vector<Weather> weather = new Vector<Weather>();
+		Vector<WeatherPress> weatherPress = new Vector<WeatherPress>();
 		JsonParser parser = new JsonParser();
-		JSONObject obj = new JSONObject();
 		weather = parser.readFile(lat, lon, cnt);
-		for(int i=0; i<weather.size(); i++)
-			try {
-			obj.put("Pressione", weather.get(i).getPressione());
-			}catch(JSONException e) {e.printStackTrace();}
-		return obj;
+		for(int i=0; i<weather.size(); i++){
+			weatherPress.get(i).setter(weather.get(i));
+		}
+		return weatherPress;
+	}
+
+
+	public JSONObject Suggested(){
+
 	}
 
 }

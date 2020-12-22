@@ -1,9 +1,7 @@
-/*******************************************************************************
- * 2020, All rights reserved.
- *******************************************************************************/
 package Service;
 import model.*;
 import Filtri.*;
+import Parser.*;
 
 import org.springframework.web.bind.annotation.RestController;
 import Parser.JsonParser;
@@ -19,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 
 /**
@@ -30,18 +29,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 public class WeatherService {
-	/**
-	 * Description of the property weathers.
-	 */
 
-	
-	public Vector<WeatherCollection> weathers = new Vector<WeatherCollection>();
 	private static String key;
-	private static boolean obj=true;
 
 
 	/**
-	 * Costruttore che si occupa di leggere la key di OpenWeather da file.
+	 * Il costruttore.
 	 */
 	public WeatherService() {
 		try {
@@ -50,41 +43,46 @@ public class WeatherService {
 			e.getStackTrace();
 		}
 	}
-	
-	/*@PostMapping("/weatherP")
-	public Vector<Weather> getWeather(@RequestBody Request request) {
-		
-		JsonParser parser = new JsonParser(); //creo un JsonParser
-		
-		//leggo dall'API, passando il tipo di Json e l'url al parser
-		parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+request.getLat()+"&lon="+request.getLon()+
-				"&appid="+key+"&cnt="+request.getCnt()+"&units=metric&lang=it");
-		//ricevo in uscita i dati per quella determinata città
-		
-		return parser.getWeather();
-	}*/
 
 	/**
-	 * Description of the method updateWeather.
+	* Metodo che visualizza tutto il file con le history
+	*/
+	@GetMapping(value="/alldata")
+	public JSONObject all(){
+		Utility utils = new Utility();
+		return utils.readAllFile();
+	}
+	/**
+	* Metodo che gestisce una chiamata alla home, che suggerisce latitudine e longitudine di alcune città
+	*/
+	@GetMapping(value="/")
+	public JSONObject home(){
+		StatsRequest stats = new StatsRequest();
+		return stats.Suggested();
+	}
+
+	/**
+	 * 
 	 */
-	@GetMapping("/weather")
-	public Vector<Weather> getWeather(
+	@RequestMapping(value="/weather", method=RequestMethod.GET)
+	public JsonParser getWeather(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
 			@RequestParam(value="cnt", defaultValue="1")int cnt) {
 		
 		JsonParser parser = new JsonParser(); //creo un JsonParser
-		String url="http://api.openweather.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&appid="+key+"&cnt="+cnt+"&units=metric&lang=it");
+		
 		//leggo dall'API, passando il tipo di Json e l'url al parser
-		parser.readAPI(url);
+		parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+
+				"&appid="+key+"&cnt="+cnt+"&units=metric&lang=it");
 		//ricevo in uscita i dati per quella determinata città
-		return parser.readAPI(url);
+		
+		return parser;
 	}
 	
-	
 	//statistiche riguardo previsioni azzeccate in generale 
-	@GetMapping("/stats")
-	public StatsRequest getStats(
+	@RequestMapping(value="/stats", method=RequestMethod.GET)
+	public Vector<Weather> getStats(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
 			@RequestParam(value="cnt", defaultValue="1")int cnt) {
@@ -94,8 +92,8 @@ public class WeatherService {
 	}
 	
 	//richiedere statistiche di un solo dato specifico
-	@GetMapping("/stats/pressione")
-	public StatsRequest getPres(
+	@RequestMapping(value="/stats/pressione", method=RequestMethod.GET)
+	public Vector<WeatherPress> getPres(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
 			@RequestParam(value="cnt", defaultValue="1")int cnt) {
@@ -104,8 +102,8 @@ public class WeatherService {
 		return stat.getPress(lat, lon, cnt);
 	}
 	
-	@GetMapping("/stats/temperature")
-	public WeatherCollection getTem(
+	@RequestMapping(value="/stats/temperature", method=RequestMethod.GET)
+	public Vector<WeatherTemp> getTem(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
 			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt) {
@@ -114,7 +112,8 @@ public class WeatherService {
 			return stat.getTemperature(lat, lon, 1);
 		else if (cnt.equals("settimanale"))
 			return stat.getTemperature(lat, lon, 7);
-		return stat.getTemperature(lat, lon, 30);
+		else if (cnt.equals("mensile"))
+			return stat.getTemperature(lat, lon, 30);
 	}
 	
 }

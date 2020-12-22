@@ -1,66 +1,48 @@
-/*******************************************************************************
- * 2020, All rights reserved.
- *******************************************************************************/
 package model;
 
-import java.util.Vector;
-
-// Start of user code (user defined imports)
-
-// End of user code
-
 /**
- * Description of WeatherCollection.
- * 
  * @author Massimo
+ * 
+ * Classe che contiene i parametri riguardanti le temperature medie
  */
 public class WeatherCollection {
+
 	/**
-	 * Description of the property controllers.
+	 * Attributi
 	 */
-	//public Vector<Controller> controllers = new Vector<Controller>();
-
+	private double TempMedia;
+	private double TempMediaPerc;
 	/**
-	 * Description of the property weathers.
-	 */
-	public Vector<Weather> weathers = new Vector<Weather>();
-
-	// Start of user code (user defined attributes for WeatherCollection)
-
-	// End of user code
-
-	/**
-	 * The constructor.
+	 * Costruttore
 	 */
 	public WeatherCollection() {
-		// Start of user code constructor for WeatherCollection)
 		super();
-		// End of user code
 	}
 
 	/**
-	 * Description of the method setWeather.
-	 * @param ArrayList<Weather> 
+	 * @param media
 	 */
-	public void setWeather(Vector<Weather> wet) {
-		// Start of user code for method setWeather
-		// End of user code
+	public void setTempMedia(double media) {
+		this.TempMedia=media;
+	}
+	
+	public void setTempMediaPerc(double media) {
+		this.TempMediaPerc=media;
 	}
 
-	// Start of user code (user defined methods for WeatherCollection)
-
-	// End of user code
 	/**
-	 * Returns controllers.
-	 * @return controllers 
+	 * @return TempMedia 
 	 */
-
+	public double getTemMedia() {
+		return this.TempMedia;
+	}
+	
+	
 	/**
-	 * Returns weathers.
-	 * @return weathers 
+	 * @return TempMediaPerc
 	 */
-	public Vector<Weather> getWeathers() {
-		return this.weathers;
+	public double getTemMediaPerc() {
+		return this.TempMediaPerc;
 	}
 
 }
