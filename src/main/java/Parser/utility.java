@@ -28,7 +28,6 @@ public class utility {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm:ss");
 		int day= LocalDateTime.now().getDayOfMonth();
 		try {
-			
 			if(file.exists()) {
 				Scanner file_input = new Scanner(new BufferedReader(new FileReader(file)));
 				for(int i=0;i<weather.size();i++) {
@@ -43,7 +42,7 @@ public class utility {
 						}
 					}
 				}
-			}
+			}return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return true;

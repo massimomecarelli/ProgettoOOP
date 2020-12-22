@@ -8,6 +8,7 @@ import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -106,20 +107,22 @@ public class JsonParser {
 	 */
 	
 	public Vector<Weather> readFile(double lat, double lon, int cnt) {
+		File file=new File("src/main/resources/Weather.json");
 		try {
-			Scanner file_input = new Scanner(new BufferedReader(new FileReader("src/main/resources/Weather.json")));
-			while(file_input.hasNextLine()){
-				Jobject=new JSONObject(file_input.nextLine());
-				if(Jobject.getDouble("lat")==lat&&Jobject.getDouble("lon")==lon){
-					wet=util.fillWet(Jobject);
-					weather.add(0,wet);
-					if(weather.size()==cnt+1) {
-						weather.remove(cnt-1);
+			if(file.exists()) {
+				Scanner file_input = new Scanner(new BufferedReader(new FileReader(file)));
+				while(file_input.hasNextLine()){
+					Jobject=new JSONObject(file_input.nextLine());
+					if(Jobject.getDouble("lat")==lat&&Jobject.getDouble("lon")==lon){
+						wet=util.fillWet(Jobject);
+						weather.add(0,wet);
+						if(weather.size()==cnt+1) {
+							weather.remove(cnt-1);
+						}
 					}
 				}
-			}
-			file_input.close();
-			
+				file_input.close();
+			}else return null;
 		} catch (NullPointerException | FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
