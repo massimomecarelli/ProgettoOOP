@@ -69,6 +69,7 @@ public class StatsRequest {
 		//aggiunta di un vettore WeatherCollection per prendere valori di media
 		Vector<WeatherTemp> weatherTemp = new Vector<WeatherTemp>();
 		Vector<Weather> weather = new Vector<Weather>();
+		weatherTemp.add(null);
 		JsonParser parser = new JsonParser();
 		weather = parser.readFile(lat, lon, cnt);
 		for (int i=0; i<weather.size(); i++){
@@ -87,6 +88,7 @@ public class StatsRequest {
 	public Vector<WeatherPress> getPress(double lat, double lon, int cnt) {
 		Vector<Weather> weather = new Vector<Weather>();
 		Vector<WeatherPress> weatherPress = new Vector<WeatherPress>();
+		weatherPress.add(null);
 		JsonParser parser = new JsonParser();
 		weather = parser.readFile(lat, lon, cnt);
 		for(int i=0; i<weather.size(); i++){
@@ -97,7 +99,7 @@ public class StatsRequest {
 
 
 	public JSONObject Suggested(){
-
+		
 	}
 
 }

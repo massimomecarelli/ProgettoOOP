@@ -112,6 +112,8 @@ public class WeatherService {
 			return stat.getTemperature(lat, lon, 7);
 		else if (cnt.equals("mensile"))
 			return stat.getTemperature(lat, lon, 30);
+		else System.out.println("Periodo non valido");
+		return null;
 	}
 	
 }
