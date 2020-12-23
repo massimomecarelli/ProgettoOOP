@@ -5,13 +5,18 @@ import Parser.*;
 
 import org.springframework.web.bind.annotation.RestController;
 import Parser.JsonParser;
+import errors.FileNotFound;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Vector;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,10 +88,14 @@ public class WeatherService {
 	public Vector<Weather> getStats(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
-			@RequestParam(value="cnt", defaultValue="1")int cnt) {
+			@RequestParam(value="cnt", defaultValue="1")int cnt, HttpServletResponse response) {
 		
 		StatsRequest stat= new StatsRequest();
-		return stat.getAll(lat, lon, cnt);
+		try {
+			return stat.getAll(lat, lon, cnt, response);
+		} catch (FileNotFound e) {
+		}
+		return null;
 	}
 	
 	//richiedere statistiche di un solo dato specifico
@@ -94,24 +103,25 @@ public class WeatherService {
 	public Vector<WeatherPress> getPres(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
-			@RequestParam(value="cnt", defaultValue="1")int cnt) {
+			@RequestParam(value="cnt", defaultValue="1")int cnt, HttpServletResponse response) {
 	
 		StatsRequest stat = new StatsRequest();
-		return stat.getPress(lat, lon, cnt);
+		return stat.getPress(lat, lon, cnt, response);
 	}
 	
+	@ExceptionHandler({ FileNotFound.class })
 	@RequestMapping(value="/stats/temperature", method=RequestMethod.GET)
 	public Vector<WeatherTemp> getTem(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
-			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt) {
+			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt, HttpServletResponse response){
 		StatsRequest stat = new StatsRequest();
 		if (cnt.equals("giornaliero"))
-			return stat.getTemperature(lat, lon, 1);
+			return stat.getTemperature(lat, lon, 1,response);
 		else if (cnt.equals("settimanale"))
-			return stat.getTemperature(lat, lon, 7);
+			return stat.getTemperature(lat, lon, 7,response);
 		else if (cnt.equals("mensile"))
-			return stat.getTemperature(lat, lon, 30);
+			return stat.getTemperature(lat, lon, 30,response);
 		else System.out.println("Periodo non valido");
 		return null;
 	}

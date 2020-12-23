@@ -1,5 +1,6 @@
 package Parser;
 
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.JSONObject;
@@ -17,7 +18,10 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.servlet.http.HttpServletResponse;
+
 import model.Weather;
+import errors.FileNotFound;
 
 /**
  * Classe che gestisce le chiamate ad OpenWeather
@@ -104,31 +108,30 @@ public class JsonParser {
 	 * @param lon : longitudine della città ricercata;
 	 * @param cnt : quantità di dati richiesta;
 	 * @return Vector di Weather contenente i dati letti dal file.
+	 * @throws FileNotFound 
 	 */
-	
-	public Vector<Weather> readFile(double lat, double lon, int cnt) {
+
+	public Vector<Weather> readFile(double lat, double lon, int cnt,HttpServletResponse response) throws FileNotFound{
 		File file=new File("src/main/resources/Weather.json");
 		try {
-			if(file.exists()) {
-				Scanner file_input = new Scanner(new BufferedReader(new FileReader(file)));
-				while(file_input.hasNextLine()){
-					Jobject=new JSONObject(file_input.nextLine());
-					if(Jobject.getDouble("lat")==lat&&Jobject.getDouble("lon")==lon){
-						wet=util.fillWet(Jobject);
-						weather.add(0,wet);
-						if(weather.size()==cnt+1) {
-							weather.remove(cnt-1);
-						}
+			Scanner file_input = new Scanner(new BufferedReader(new FileReader(file)));
+			while(file_input.hasNextLine()){
+				Jobject=new JSONObject(file_input.nextLine());
+				if(Jobject.getDouble("lat")==lat&&Jobject.getDouble("lon")==lon){
+					wet=util.fillWet(Jobject);
+					weather.add(0,wet);
+					if(weather.size()==cnt+1) {
+						weather.remove(cnt-1);
 					}
 				}
-				file_input.close();
-			}else return null;
-		} catch (NullPointerException | FileNotFoundException e) {
+			}
+			file_input.close();
+			return weather;
+		} catch (NullPointerException | JSONException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			throw new FileNotFound(e,response);
 		}
-		return weather;
+		return null;
 	}
-
 }
