@@ -26,7 +26,7 @@ public class utility {
 		boolean check=true;
 		File file=new File("src/main/resources/Weather.json");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm:ss");
-		int day= LocalDateTime.now().getDayOfMonth();
+		int hour= LocalDateTime.now().getHour();
 		try {
 			if(file.exists()) {
 				Scanner file_input = new Scanner(new BufferedReader(new FileReader(file)));
@@ -36,7 +36,7 @@ public class utility {
 						if(Jobject.getDouble("lat")==weather.get(i).getLat()&&
 						   Jobject.getDouble("lon")==weather.get(i).getLon()){
 							LocalDateTime dateTime = LocalDateTime.parse(weather.get(i).getDataLettura(), formatter);
-							if((day-dateTime.getDayOfMonth()==0)) {
+							if((hour-dateTime.getHour()!=3)) {
 								check=false;
 							}
 						}

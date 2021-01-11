@@ -1,10 +1,16 @@
 package Filtri;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import Parser.JsonParser;
 import Service.*;
@@ -116,7 +122,6 @@ public class StatsRequest {
 
 	public JSONObject Suggested(){
 		return null;
-		
 	}
 
 }
