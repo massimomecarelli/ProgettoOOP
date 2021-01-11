@@ -91,11 +91,7 @@ public class WeatherService {
 			@RequestParam(value="cnt", defaultValue="1")int cnt, HttpServletResponse response) {
 		
 		StatsRequest stat= new StatsRequest();
-		try {
-			return stat.getAll(lat, lon, cnt, response);
-		} catch (FileNotFound e) {
-		}
-		return null;
+		return stat.getAll(lat, lon, cnt, response);
 	}
 	
 	//richiedere statistiche di un solo dato specifico
