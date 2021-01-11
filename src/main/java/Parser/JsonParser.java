@@ -15,6 +15,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -55,7 +57,7 @@ public class JsonParser {
 		RestTemplate restTemplate = new RestTemplate();
 		try {
 			String temp=restTemplate.getForObject(url,String.class); //tramite restTemplate effettua la richiesta
-																		 //ad OpenWeather e salva il risultato 
+																	 //ad OpenWeather e salva il risultato 
 																		 //in un oggetto di tipo JSONObject
 			Jobject=new JSONObject(temp);
 			JSONObject city=Jobject.getJSONObject("city");
@@ -66,7 +68,6 @@ public class JsonParser {
 			e.printStackTrace();
 		}
 		writeFile();
-		System.out.println(weather);
 		return weather;
 	}
 	

@@ -42,7 +42,7 @@ public class utility {
 						}
 					}
 				}
-			}return true;
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return true;

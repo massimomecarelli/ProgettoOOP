@@ -7,14 +7,21 @@ import org.springframework.web.bind.annotation.RestController;
 import Parser.JsonParser;
 import errors.FileNotFound;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +43,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class WeatherService {
 
 	private static String key;
-
+	private static double[] lat=new double[5];
+	private static double[] lon=new double[5];
 
 	/**
 	 * Il costruttore.
 	 */
 	public WeatherService() {
 		try {
+			int i=0;
 			key=Files.readString(Path.of("src/main/resources/key.txt"));
+			File file=new File("src/main/resources/city.txt");
+			Scanner file_in=new Scanner(new BufferedReader(new FileReader(file)));
+			while(file_in.hasNextLine()) {
+				String str=file_in.nextLine();
+				if(str.indexOf(",")!=-1) {
+					lat[i]=Double.parseDouble(str.substring(0,str.indexOf(",")));
+					lon[i]=Double.parseDouble(str.substring(str.indexOf(",")+1,str.length()));
+					i++;
+				}
+			}
+			if(lat.length!=lon.length) {
+				System.out.println("Errore lettura file city.txt");
+				System.exit(1);
+			}
 		}catch(IOException e) {
 			e.getStackTrace();
 		}
@@ -57,6 +80,23 @@ public class WeatherService {
 		Utility utils = new Utility();
 		return utils.readAllFile();
 	}
+	
+	/**
+	 * 
+	 */
+	@Scheduled(fixedRate=60000)
+	@RequestMapping(value="/update")
+	public Vector<Weather> updateSugg(){
+		Vector<Weather> sugg=new Vector<Weather>();
+		JsonParser parser = new JsonParser();
+		System.out.println(DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm").format(LocalDateTime.now()));
+		for(int i=0;i<lat.length;i++) {
+			sugg.addAll(parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat[i]+"&lon="+lon[i]+
+					"&appid="+key+"&cnt="+1+"&units=metric&lang=it"));
+		}
+		return sugg;
+	}
+	
 	/**
 	* Metodo che gestisce una chiamata alla home, che suggerisce latitudine e longitudine di alcune città
 	*/
@@ -71,8 +111,8 @@ public class WeatherService {
 	 */
 	@RequestMapping(value="/weather", method=RequestMethod.GET)
 	public Vector<Weather> getWeather(
-			@RequestParam(value="lat") double lat, 
-			@RequestParam(value="lon") double lon,
+			@RequestParam(value="lat", defaultValue="13.51") double lat, 
+			@RequestParam(value="lon", defaultValue="43.60") double lon,
 			@RequestParam(value="cnt", defaultValue="1")int cnt) {
 		
 		JsonParser parser = new JsonParser(); //creo un JsonParser
