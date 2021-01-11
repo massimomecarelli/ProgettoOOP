@@ -24,4 +24,16 @@ public class WeatherTemp implements WeatherFilteredArchive {
 		TempMax=weather.getTempMin();
 		TempPerc=weather.getTempPercepita();
 	}
+	
+	public double getTMax() {
+		return TempMax;
+	}
+	
+	public double getTMin() {
+		return TempMin;
+	}
+	
+	public double getTPerc() {
+		return TempPerc;
+	}
 }

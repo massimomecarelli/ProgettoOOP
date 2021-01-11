@@ -78,11 +78,11 @@ public class WeatherService {
 	/**
 	* Metodo che visualizza tutto il file con le history
 	*/
-	@GetMapping(value="/alldata")
+	/*@GetMapping(value="/alldata")
 	public JSONObject all(){
 		Utility utils = new Utility();
 		return utils.readAllFile();
-	}
+	}*/
 	
 	/**
 	 * Metodo che, ogni tre ore, legge automaticamente il meteo attuale di alcune città predefinite, memorizzate in un file.
@@ -126,7 +126,9 @@ public class WeatherService {
 				"&appid="+key+"&cnt="+(cnt*8)+"&units=metric&lang=it");
 	}
 	
-	//statistiche riguardo previsioni azzeccate in generale 
+	/*
+	* Statistiche riguardo previsioni in generale 
+	*/
 	@RequestMapping(value="/stats", method=RequestMethod.GET)
 	public Vector<Weather> getStats(
 			@RequestParam(value="lat") double lat, 
@@ -137,31 +139,84 @@ public class WeatherService {
 		return stat.getAll(lat, lon, cnt, response);
 	}
 	
-	//richiedere statistiche di un solo dato specifico
+	/*
+	* Metodo che gestisce la richiesta di statistiche riguardo pressione massima e minima
+	*/
 	@RequestMapping(value="/stats/pressione", method=RequestMethod.GET)
-	public Vector<WeatherPress> getPres(
+	public StatsRequest getPres(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
-			@RequestParam(value="cnt", defaultValue="1")int cnt, HttpServletResponse response) {
+			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt, HttpServletResponse response) {
 	
 		StatsRequest stat = new StatsRequest();
-		return stat.getPress(lat, lon, cnt, response);
-	}
-	
-	@RequestMapping(value="/stats/temperature", method=RequestMethod.GET)
-	public Vector<WeatherTemp> getTem(
-			@RequestParam(value="lat") double lat, 
-			@RequestParam(value="lon") double lon,
-			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt, HttpServletResponse response){
-		StatsRequest stat = new StatsRequest();
-		if (cnt.equals("giornaliero"))
-			return stat.getTemperature(lat, lon, 1,response);
-		else if (cnt.equals("settimanale"))
-			return stat.getTemperature(lat, lon, 7,response);
-		else if (cnt.equals("mensile"))
-			return stat.getTemperature(lat, lon, 30,response);
+		if (cnt.equals("giornaliero")){
+			stat.setPressMassima(lat, lon, 1, response);
+			stat.setPressMinima(lat, lon, 1, response);
+			return stat;
+		}
+		else if (cnt.equals("settimanale")){
+			stat.setPressMassima(lat, lon, 7, response);
+			stat.setPressMinima(lat, lon, 7, response);
+			return stat;
+		}
+		else if (cnt.equals("mensile")){
+			stat.setPressMassima(lat, lon, 30, response);
+			stat.setPressMinima(lat, lon, 30, response);
+			return stat;
+		}
 		else System.out.println("Periodo non valido");
 		return null;
 	}
 	
+	/*
+	* Metodo che gestisce la richiesta di temperature massime e minime in un certo periodo di tempo
+	*/
+	@ExceptionHandler({ FileNotFound.class })
+	@RequestMapping(value="/stats/temperature/maxmin", method=RequestMethod.GET)
+	public StatsRequest getTemMinMax(
+			@RequestParam(value="lat") double lat, 
+			@RequestParam(value="lon") double lon,
+			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt){
+		
+		StatsRequest stat = new StatsRequest();
+		if (cnt.equals("giornaliero")){
+			stat.getMin(lat, lon, 1);
+			stat.getMax(lat, lon, 1);
+			return stat;
+		}
+		else if (cnt.equals("settimanale")){
+			stat.getMin(lat, lon, 7);
+			stat.getMax(lat, lon, 7);
+			return stat;
+		}
+		else if (cnt.equals("mensile")){
+			stat.getMin(lat, lon, 30);
+			stat.getMax(lat, lon, 30);
+			return stat;
+		}
+		else System.out.println("Periodo non valido");
+		return null;
+	}
+
+	/*
+	* Metodo che restituisce la temperatura media e la media percepita
+	*/
+	@ExceptionHandler({ FileNotFound.class })
+	@RequestMapping(value="/stats/temperature/medie", method=RequestMethod.GET)
+	public WeatherCollection getTemMedie(
+			@RequestParam(value="lat") double lat, 
+			@RequestParam(value="lon") double lon,
+			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt, HttpServletResponse response){
+		
+		StatsRequest stat = new StatsRequest();
+		if (cnt.equals("giornaliero"))
+			return stat.getTemperatureAvrg(lat, lon, 1, response);
+		else if (cnt.equals("settimanale"))
+			return stat.getTemperatureAvrg(lat, lon, 7, response);
+		else if (cnt.equals("mensile"))
+			return stat.getTemperatureAvrg(lat, lon, 30, response);
+		else System.out.println("Periodo non valido");
+		return null;
+	}
 }
+	

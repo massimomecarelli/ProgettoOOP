@@ -19,5 +19,9 @@ public class WeatherPress implements WeatherFilteredArchive {
 	public void setter(Weather weather) {
 		Pressione=weather.getPressione();
 	}
+	
+	public double getPressione() {
+		return Pressione;
+	}
 
 }

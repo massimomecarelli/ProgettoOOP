@@ -14,8 +14,9 @@ import org.json.JSONObject;
 
 import Parser.JsonParser;
 import Service.*;
-import errors.FileNotFound;
+import errors.*;
 import Filtri.StatsAverageImpl;
+import Filtri.StatsMaxMin;
 import model.*;
 
 
@@ -27,6 +28,8 @@ import model.*;
  */
 public class StatsRequest {
 	
+	private double Max=0;
+	private double Min=0;
 
 	/**
 	 * Costruttore
@@ -52,76 +55,144 @@ public class StatsRequest {
 	}
 
 	/**
-	 * Descrizione del metodo getTemperature.
+	 * Metodo che calcola la media di temperatura degli ultimi giorni (inserito dall'utente)
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
-	 * @throws FileNotFound 
 	 */
-	public WeatherCollection getTemperatureAvrg(double lat, double lon, int cnt, HttpServletResponse response) {
+	public WeatherCollection getTemperatureAvrg(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty{
 		Vector<Weather> weather = new Vector<Weather>();
 		JsonParser parser = new JsonParser();
-		try {
-			weather = parser.readFile(lat, lon, cnt, response);
-		} catch (FileNotFound e1) {}
+		weather = parser.readFile(lat, lon, cnt, response);
+		if (weather==null)
+			throw new FileIsEmpty (e, response);
 		StatsAverageImpl average=new StatsAverageImpl();
 		WeatherCollection collection = new WeatherCollection();
 		Vector<Double> tTot = new Vector<Double>();
 		Vector<Double> tPerc = new Vector<Double>();
 		
 		try {
-			for (int i=0; i<cnt; i++) {
-				tTot.add(weather.get(i).getTempMax());
-				tTot.add(weather.get(i).getTempMin());
-				tPerc.add(weather.get(i).getTempPercepita());
+		for (int i=0; i<cnt; i++) {
+			tTot.add(weather.get(i).getTempMax());
+			tTot.add(weather.get(i).getTempMin());
+			tPerc.add(weather.get(i).getTempPercepita());
 		}
-			collection.setTempMedia(average.getMedia(tTot));
-			collection.setTempMediaPerc(average.getMedia(tPerc));
+		collection.setTempMedia(average.getMedia(tTot));
+		collection.setTempMediaPerc(average.getMedia(tPerc));
 		}catch(Exception e) {e.printStackTrace();}
 		return collection;
 	}
 
-	public Vector<WeatherTemp> getTemperature(double lat, double lon, int cnt, HttpServletResponse response) {
+	/**
+	 * Metodo che prende il valore massimo delle temperature nei giorni precedenti (inserito dall'utente)
+	 * @param lat 
+	 * @param lon 
+	 * @param cnt
+	 */
+	public void setTemperatureMax(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty{
 		//aggiunta di un vettore WeatherCollection per prendere valori di media
 		Vector<WeatherTemp> weatherTemp = new Vector<WeatherTemp>();
+		Vector<Weather> weather = new Vector<Weather>();
 		JsonParser parser = new JsonParser();
-		Vector<Weather> weather=new Vector<Weather>();
-		try {
-			weather = parser.readFile(lat, lon, cnt,response);
-		} catch (FileNotFound e) {}
+		weather = parser.readFile(lat, lon, cnt, response);
+		if (weather==null)
+			throw new FileIsEmpty ("Il file è vuoto!");
 		for (int i=0; i<weather.size(); i++){
-			weatherTemp.add(null);
-			System.out.println(weather.get(i)==null);
 			weatherTemp.get(i).setter(weather.get(i));
 		}
-		return weatherTemp;
+		//trovo il valore massimo
+		StatsMaxMin max = new StatsMaxMin();
+		max.setMax(weatherTemp, 't');
+		this.Max=max.getMax();
+	}
+
+	/**
+	 * Metodo che prende il valore minimo delle temperature nei giorni precedenti (inserito dall'utente)
+	 * @param lat 
+	 * @param lon 
+	 * @param cnt
+	 */
+	public void setTemperatureMin(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty{
+		//aggiunta di un vettore WeatherCollection per prendere valori di media
+		Vector<WeatherTemp> weatherTemp = new Vector<WeatherTemp>();
+		Vector<Weather> weather = new Vector<Weather>();
+		JsonParser parser = new JsonParser();
+		weather = parser.readFile(lat, lon, cnt, response);
+		if (weather==null)
+			throw new FileIsEmpty ("Il file è vuoto!");
+		for (int i=0; i<weather.size(); i++){
+			weatherTemp.get(i).setter(weather.get(i));
+		}
+		//trovo il valore minimo
+		StatsMaxMin min = new StatsMaxMin();
+		min.setMin(weatherTemp, 't');
+		this.Min = min.getMin();
 	}
 	
 	
 	/**
-	 * Descrizione del metodo getPress.
+	 * Metodo che prende il valore massimo delle pressioni nei giorni precedenti (inserito dall'utente)
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
-	 * @throws FileNotFound 
 	 */
-	public Vector<WeatherPress> getPress(double lat, double lon, int cnt, HttpServletResponse response) {
+	public void setPressMassima(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty{
 		Vector<Weather> weather = new Vector<Weather>();
 		Vector<WeatherPress> weatherPress = new Vector<WeatherPress>();
 		JsonParser parser = new JsonParser();
-		try {
-			weather = parser.readFile(lat, lon, cnt, response);
-		} catch (FileNotFound e) {}
+		weather = parser.readFile(lat, lon, cnt, response);
+		if (weather==null)
+			throw new FileIsEmpty ("Il file è vuoto!");
 		for(int i=0; i<weather.size(); i++){
-			weatherPress.add(null);
 			weatherPress.get(i).setter(weather.get(i));
 		}
-		return weatherPress;
+		//trovo il valore massimo
+		StatsMaxMin max = new StatsMaxMin();
+		max.setMin(weatherPress);
+		this.Max=max.getMax();
 	}
 
 
-	public JSONObject Suggested(){
-		return null;
+	/**
+	 * Metodo che prende il valore minimo delle pressioni nei giorni precedenti (inserito dall'utente)
+	 * @param lat 
+	 * @param lon 
+	 * @param cnt
+	 */
+	public void setPressMinima(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty{
+		Vector<Weather> weather = new Vector<Weather>();
+		Vector<WeatherPress> weatherPress = new Vector<WeatherPress>();
+		JsonParser parser = new JsonParser();
+		weather = parser.readFile(lat, lon, cnt, response);
+		if (weather==null)
+			throw new FileIsEmpty ("Il file è vuoto!");
+		for(int i=0; i<weather.size(); i++){
+			weatherPress.get(i).setter(weather.get(i));
+		}
+		//trovo il valore minimo
+		StatsMaxMin min = new StatsMaxMin();
+		min.setMin(weatherPress);
+		this.Min=min.getMin();
+	}
+
+	/**
+	 * Metodo che restituisce il valore minimo delle pressioni nei giorni precedenti (inserito dall'utente)
+	 * @param lat 
+	 * @param lon 
+	 * @param cnt
+	 */
+	public double getMin(double lat, double lon, int cnt){
+		return Min;
+	}
+
+	/**
+	 * Metodo che restituisce il valore massimo delle pressioni nei giorni precedenti (inserito dall'utente)
+	 * @param lat 
+	 * @param lon 
+	 * @param cnt
+	 */
+	public double getMax(double lat, double lon, int cnt){
+		return Max;
 	}
 
 }
