@@ -1,6 +1,5 @@
 package Parser;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.JSONObject;
@@ -15,8 +14,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -58,7 +55,7 @@ public class JsonParser {
 		try {
 			String temp=restTemplate.getForObject(url,String.class); //tramite restTemplate effettua la richiesta
 																	 //ad OpenWeather e salva il risultato 
-																		 //in un oggetto di tipo JSONObject
+																     //in un oggetto di tipo JSONObject
 			Jobject=new JSONObject(temp);
 			JSONObject city=Jobject.getJSONObject("city");
 			JSONArray dt=Jobject.getJSONArray("list");
@@ -85,7 +82,6 @@ public class JsonParser {
 					Jobject=util.fillObject(weather.get(i));
 					file_output.println(Jobject);
 				}
-				
 				System.out.println("File salvato!");
 				file_output.close();
 			}
@@ -108,7 +104,8 @@ public class JsonParser {
 	 * @param lat : latitudine della città ricercata;
 	 * @param lon : longitudine della città ricercata;
 	 * @param cnt : quantità di dati richiesta;
-	 * @return Vector di Weather contenente i dati letti dal file.
+	 * @return weather : Vector di Weather contenente i dati letti dal file. 
+	 * 		   Il metodo potrebbe restituire null nel caso in cui ci siano dei problemi nella lettura del file.
 	 * @throws FileNotFound 
 	 */
 

@@ -24,8 +24,12 @@ public class Weather {
 	/**
 	 * Valore che indica il giorno.
 	 */
-	private int giorno = 0;
+	private int dateTime = 0;
 
+	/**
+	 * Valore che indica il giorno in dd/MM/yyyy.
+	 */
+	private String giorno = "";	
 	/**
 	 * Valore che indica il nome della città.
 	 */
@@ -100,8 +104,12 @@ public class Weather {
 		return dataLettura;
 	}
 	
-	public int getGiorno() {
+	public String getGiorno() {
 		return giorno;
+	}
+	
+	public int getDateTime() {
+		return dateTime;
 	}
 	
 	public void setLat(double lat) {
@@ -116,8 +124,12 @@ public class Weather {
 		this.Nome=nome;
 	}
 	
-	public void setGiorno(int giorno) {
+	public void setGiorno(String giorno) {
 		this.giorno=giorno;
+	}
+	
+	public void setDateTime(int dateTime) {
+		this.dateTime=dateTime;
 	}
 	
 	public void setTempMin(double tempMin) {

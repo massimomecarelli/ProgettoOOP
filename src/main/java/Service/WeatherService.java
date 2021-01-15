@@ -5,6 +5,8 @@ import Parser.*;
 
 import org.springframework.web.bind.annotation.RestController;
 import Parser.JsonParser;
+import errors.ErrorException;
+import errors.FileIsEmpty;
 import errors.FileNotFound;
 
 import java.io.BufferedReader;
@@ -36,9 +38,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 /**
- * Description of WeatherService.
+ * Classe che contiene e gestisce tutte le rotte del servizio.
  * 
- * @author Massimo
+ * @author Massimo Mecarelli
+ * @author Marco Pasquale Martino
  */
 
 @RestController
@@ -49,9 +52,8 @@ public class WeatherService {
 	private static double[] lon=new double[5];
 
 	/**
-	 * Costruttore della classe il quale imposta la key e latitudine e longitudine di alcune città.
-	 * Questi dati sono memorizzati in dei file, per rende comode le modifiche future.
-	 * @throws JSONException 
+	 * Costruttore della classe il quale imposta la key e latitudine e longitudine di alcune città predefinite.
+	 * Questi dati sono memorizzati in dei file, per rendere comodee veloci le modifiche future. 
 	 */
 	public WeatherService(){
 		try {
@@ -85,7 +87,8 @@ public class WeatherService {
 	}*/
 	
 	/**
-	 * Metodo che, ogni tre ore, legge automaticamente il meteo attuale di alcune città predefinite, memorizzate in un file.
+	 * Metodo che, ogni tre ore, legge automaticamente il meteo attuale di alcune città predefinite e le salva all'interno del file weather.json.
+	 * @return sugg lettura ottenuta tramite l'update.
 	 */
 	@Scheduled(fixedRate=10800000)
 	@RequestMapping(value="/update")
@@ -95,22 +98,19 @@ public class WeatherService {
 		System.out.println(DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm").format(LocalDateTime.now()));
 		for(int i=0;i<lat.length;i++) {
 			sugg.addAll(parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat[i]+"&lon="+lon[i]+
-					"&appid="+key+"&cnt="+1+"&units=metric&lang=it"));
+					"&appid="+key+"&cnt="+33+"&units=metric&lang=it"));
 		}
 		return sugg;
 	}
 	
 	/**
-	* Metodo che gestisce una chiamata alla home, che suggerisce latitudine e longitudine di alcune città
-	*/
-	@GetMapping(value="/")
-	public JSONObject home(){
-		StatsRequest stats = new StatsRequest();
-		return stats.Suggested();
-	}
-
-	/**
-	 * 
+	 * Metodo che, tramite latitudine e longitudine, manda una richiesta a OpenWeather.
+	 * Una volta effettuata la richiesta, i dati ricevuti, se non presenti, saranno memorizzati all'interno del file weather.json il quale funge da storico.
+	 * Tramite il parametro "cnt", sarà possibile scegliere quante letture visualizzare (con un intervallo di 3 ore tra un dato e l'altro).
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt quantità di dati da richiedere al server
+	 * @return lettura dati ottenuti dal server
 	 */
 	@RequestMapping(value="/weather", method=RequestMethod.GET)
 	public Vector<Weather> getWeather(
@@ -126,9 +126,14 @@ public class WeatherService {
 				"&appid="+key+"&cnt="+(cnt*8)+"&units=metric&lang=it");
 	}
 	
-	/*
-	* Statistiche riguardo previsioni in generale 
-	*/
+	/**
+	 * Metodo che restituisce le statistiche generali di una determinata città, in un lasso di tempo deciso dall'utente.
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt quantità di dati su cui generale le statistiche
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @return statistiche calcolate
+	 */
 	@RequestMapping(value="/stats", method=RequestMethod.GET)
 	public Vector<Weather> getStats(
 			@RequestParam(value="lat") double lat, 
@@ -139,9 +144,14 @@ public class WeatherService {
 		return stat.getAll(lat, lon, cnt, response);
 	}
 	
-	/*
-	* Metodo che gestisce la richiesta di statistiche riguardo pressione massima e minima
-	*/
+	/**
+	 * Richiedere statistiche relative alla pressione
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt quantità di dati su cui generale le statistiche
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @return statistiche calcolate
+	 */
 	@RequestMapping(value="/stats/pressione", method=RequestMethod.GET)
 	public StatsRequest getPres(
 			@RequestParam(value="lat") double lat, 
@@ -168,9 +178,14 @@ public class WeatherService {
 		return null;
 	}
 	
-	/*
-	* Metodo che gestisce la richiesta di temperature massime e minime in un certo periodo di tempo
-	*/
+	/**
+	 * Richiede statistiche relative alla temperatura massima e minima in un determinato lasso di tempo
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt quantità di dati su cui generale le statistiche
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @return statistiche calcolate
+	 */
 	@ExceptionHandler({ FileNotFound.class })
 	@RequestMapping(value="/stats/temperature/maxmin", method=RequestMethod.GET)
 	public StatsRequest getTemMinMax(
@@ -209,14 +224,40 @@ public class WeatherService {
 			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt, HttpServletResponse response){
 		
 		StatsRequest stat = new StatsRequest();
-		if (cnt.equals("giornaliero"))
-			return stat.getTemperatureAvrg(lat, lon, 1, response);
-		else if (cnt.equals("settimanale"))
-			return stat.getTemperatureAvrg(lat, lon, 7, response);
-		else if (cnt.equals("mensile"))
-			return stat.getTemperatureAvrg(lat, lon, 30, response);
-		else System.out.println("Periodo non valido");
+		try {
+			if (cnt.equals("giornaliero"))
+				return stat.getTemperatureAvrg(lat, lon, 1, response);
+			else if (cnt.equals("settimanale"))
+				return stat.getTemperatureAvrg(lat, lon, 7, response);
+			else if (cnt.equals("mensile"))
+				return stat.getTemperatureAvrg(lat, lon, 30, response);
+			else System.out.println("Periodo non valido");
+		} catch (FileNotFound | FileIsEmpty e) {
+			e.printStackTrace();
+		}
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt quantità di dati su cui calcolare l'errore
+	 * @param err percentuale massima di errore da mostrare
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @return dati riguardanti la percentuale di errore
+	 * @throws FileNotFound eccezione per gestire eventuali errori per la mancanza di file
+	 */
+	@RequestMapping(value="/error", method=RequestMethod.GET)
+	public Vector<modelError> getError(
+			@RequestParam(value="lat") double lat,
+			@RequestParam(value="lon") double lon,
+			@RequestParam(value="cnt", defaultValue="1") int cnt,
+			@RequestParam(value="err") double err, HttpServletResponse response) throws FileNotFound{
+		ErrorFilter errorfilter=new ErrorFilter();
+		Vector<modelError> error=errorfilter.getTempError(lat, lon, cnt, err, response);
+		if(error.isEmpty()) throw new ErrorException(response,err);
+		return error;
 	}
 }
 	
