@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -26,6 +24,14 @@ public class ErrorFilter {
 		weather=new Vector<Weather>();
 	}
 	
+	public void setWeather(Vector<Weather> weather) {
+		this.weather=weather;
+	}
+	
+	public Vector<Weather> getWeather(){
+		return weather;
+	}
+	
 	/**
 	 * Metodo che legge i dati da file weather.json, dopo di che calcola l'errore per ogni dato in base ai dati attuali e popola il Vector<Weather>
 	 * in base alla percentuale massima tollerata, se l'errore calcolato è minore o uguale a quello massimo, i dati verranno inseriti, altrimenti saranno scartati.
@@ -41,14 +47,15 @@ public class ErrorFilter {
 		int check=0;
 		utility util=new utility();
 		Vector<modelError> error=new Vector<modelError>();
-		LocalDateTime date=LocalDateTime.now();
+		Weather actual=util.getActual(lat,lon);
 		try {
 			File file=new File("src/main/resources/weather.json");
 			Scanner file_in=new Scanner(new BufferedReader(new FileReader(file)));
 			while(file_in.hasNextLine()) {
 				JSONObject Jobject=new JSONObject(file_in.nextLine());
+				System.out.println(actual.getGiorno());
 				if(Jobject.getDouble("lat")==lat&&Jobject.getDouble("lon")==lon
-				   &&Jobject.getString("date").equals(date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:00")))) {
+				   &&Jobject.getString("date").equals(actual.getGiorno())) {
 					if(check<cnt) {
 						weather.add(util.fillWet(Jobject));
 						check++;
@@ -58,7 +65,6 @@ public class ErrorFilter {
 					}
 				}
 			}
-			Weather actual=util.getActual(lat,lon);
 			for(int i=0;i<weather.size();i++) {
 				double er=calculateError(weather.get(i), actual);
 				if(er<=err) {
