@@ -50,7 +50,17 @@ public class Weather {
 	 */
 	private String dataLettura;
 	
-	public Weather() {
+	public Weather(double lat,double lon, double min, double max, double perc, int press, int dt, String dataLett, String giorno, String nome) {
+		setLat(lat);
+		setLon(lon);
+		setTempMin(min);
+		setTempMax(max);
+		setTemp(perc);
+		setPressione(press);
+		setDateTime(dt);
+		setDataLettura(dataLett);
+		setGiorno(giorno);
+		setNome(nome);
 	}
 	
 	public double getLat() {
