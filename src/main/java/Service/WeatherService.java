@@ -1,10 +1,9 @@
 package Service;
 import model.*;
 import Filtri.*;
-import Parser.*;
+import Parser.JsonParser;
 
 import org.springframework.web.bind.annotation.RestController;
-import Parser.JsonParser;
 import errors.ErrorException;
 import errors.FileIsEmpty;
 import errors.FileNotFound;
@@ -22,17 +21,11 @@ import java.util.Vector;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -160,18 +153,23 @@ public class WeatherService {
 	
 		StatsRequest stat = new StatsRequest();
 		if (cnt.equals("giornaliero")){
-			stat.setPressMassima(lat, lon, 1, response);
-			stat.setPressMinima(lat, lon, 1, response);
+			try {
+				stat.setPressMassima(lat, lon, 1, response);
+				stat.setPressMinima(lat, lon, 1, response);
+			} catch (FileNotFound | FileIsEmpty e) { e.printStackTrace();}
 			return stat;
 		}
 		else if (cnt.equals("settimanale")){
-			stat.setPressMassima(lat, lon, 7, response);
-			stat.setPressMinima(lat, lon, 7, response);
-			return stat;
+			try {
+				stat.setPressMassima(lat, lon, 7, response);
+				stat.setPressMinima(lat, lon, 7, response);
+			} catch (FileNotFound | FileIsEmpty e) { e.printStackTrace();}
 		}
 		else if (cnt.equals("mensile")){
-			stat.setPressMassima(lat, lon, 30, response);
-			stat.setPressMinima(lat, lon, 30, response);
+			try {
+				stat.setPressMassima(lat, lon, 30, response);
+				stat.setPressMinima(lat, lon, 30, response);
+			}catch (FileNotFound | FileIsEmpty e) { e.printStackTrace();}
 			return stat;
 		}
 		else System.out.println("Periodo non valido");
@@ -191,7 +189,8 @@ public class WeatherService {
 	public StatsRequest getTemMinMax(
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
-			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt){
+			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt, HttpServletResponse response)
+		throws FileIsEmpty {
 		
 		StatsRequest stat = new StatsRequest();
 		if (cnt.equals("giornaliero")){
