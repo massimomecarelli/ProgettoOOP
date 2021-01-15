@@ -168,18 +168,27 @@ public class utility {
 	 * @throws JSONException eccezione usata per gestire eventuali erroi nella lettura dei JSON
 	 */
 	
-	public Weather getWet(JSONArray dt, JSONObject city) throws JSONException {
+	public Weather getWet(JSONArray dt, JSONObject city) {
 		
 		Weather wet=new Weather();
-		JSONObject list=dt.getJSONObject(0).getJSONObject("main");
-			
-		wet.setNome(city.getString("name")); //salva il nome della citta
-		wet.setLat(city.getJSONObject("coord").getDouble("lat")); //salva latitudine della città
-		wet.setLon(city.getJSONObject("coord").getDouble("lon")); //salva longitudine della città
-		wet.setPressione(list.getInt("pressure")); //salva la pressione  
-		wet.setTemp(list.getDouble("temp")); //salva la temperatura percepita
-		wet.setTempMax(list.getDouble("temp_max")); //salva la temperatura massima	
-		wet.setTempMin(list.getDouble("temp_min")); //salva la temperatura minima
+		SimpleDateFormat newFormat=new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		SimpleDateFormat oldFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		try {
+			JSONObject list=dt.getJSONObject(0).getJSONObject("main");	
+			wet.setNome(city.getString("name")); //salva il nome della citta
+			wet.setLat(city.getJSONObject("coord").getDouble("lat")); //salva latitudine della città
+			wet.setLon(city.getJSONObject("coord").getDouble("lon")); //salva longitudine della città
+			String day=dt.getJSONObject(0).getString("dt_txt"); 
+			wet.setGiorno(newFormat.format(oldFormat.parse(day))); //salva giorno della previsione
+			wet.setDateTime(dt.getJSONObject(0).getInt("dt"));//salva il datetime della previsione
+			wet.setPressione(list.getInt("pressure")); //salva la pressione  
+			wet.setTemp(list.getDouble("temp")); //salva la temperatura percepita
+			wet.setTempMax(list.getDouble("temp_max")); //salva la temperatura massima	
+			wet.setTempMin(list.getDouble("temp_min")); //salva la temperatura minima
+		}catch(JSONException | ParseException e) {
+			e.printStackTrace();
+		}
 			
 		return wet;
 	}
@@ -203,7 +212,7 @@ public class utility {
 		} catch (IOException |JSONException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(wet.getGiorno());
 		return wet;
 		
 	}
