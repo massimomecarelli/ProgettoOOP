@@ -11,6 +11,11 @@ import model.Weather;
 import model.WeatherPress;
 import java.util.Vector;
 
+/**
+ * @author Massimo Mecarelli
+ *
+ */
+
 class StatsMaxMinTest {
 	
 	Vector<WeatherPress> vett;

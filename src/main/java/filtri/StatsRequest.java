@@ -14,7 +14,7 @@ import parser.JsonParser;
 
 
 /**
- * @author Massimo
+ * @author Massimo Mecarelli
  * 
  * Descrizione di StatsRequest.
  */

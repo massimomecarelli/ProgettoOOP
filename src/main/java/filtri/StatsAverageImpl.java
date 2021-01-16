@@ -4,7 +4,7 @@
 package filtri;
 
 /**
- * @author Massimo
+ * @author Massimo Mecarelli
  *
  */
 

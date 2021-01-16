@@ -3,7 +3,7 @@ package filtri;
 import model.Weather;
 
 /**
- *	@author Massimo
+ *	@author Massimo Mecarelli
  *
  * Interfaccia che permette di filtrare un archivio di tipo Weather
  */

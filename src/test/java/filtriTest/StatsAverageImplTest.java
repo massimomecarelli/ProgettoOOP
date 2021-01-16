@@ -10,6 +10,11 @@ import filtri.StatsAverageImpl;
 
 import java.util.Vector;
 
+/**
+ * @author Massimo Mecarelli
+ *
+ */
+
 class StatsAverageImplTest {
 	
 	private Vector<Double> vett;
