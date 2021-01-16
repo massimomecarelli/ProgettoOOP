@@ -192,22 +192,22 @@ public class WeatherService {
 			@RequestParam(value="lat") double lat, 
 			@RequestParam(value="lon") double lon,
 			@RequestParam(value="cnt", defaultValue="giornaliero")String cnt, HttpServletResponse response)
-		throws FileIsEmpty {
+		throws FileIsEmpty, FileNotFound {
 		
 		StatsRequest stat = new StatsRequest();
 		if (cnt.equals("giornaliero")){
-			stat.getMin(lat, lon, 1);
-			stat.getMax(lat, lon, 1);
+			stat.setTemperatureMax(lat, lon, 1, response);
+			stat.setTemperatureMin(lat, lon, 1, response);
 			return stat;
 		}
 		else if (cnt.equals("settimanale")){
-			stat.getMin(lat, lon, 7);
-			stat.getMax(lat, lon, 7);
+			stat.setTemperatureMax(lat, lon, 7, response);
+			stat.setTemperatureMin(lat, lon, 7, response);
 			return stat;
 		}
 		else if (cnt.equals("mensile")){
-			stat.getMin(lat, lon, 30);
-			stat.getMax(lat, lon, 30);
+			stat.setTemperatureMax(lat, lon, 30, response);
+			stat.setTemperatureMin(lat, lon, 30, response);
 			return stat;
 		}
 		else System.out.println("Periodo non valido");

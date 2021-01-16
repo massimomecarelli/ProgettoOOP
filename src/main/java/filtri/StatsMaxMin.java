@@ -5,7 +5,9 @@ import java.util.Vector;
 import model.WeatherPress;
 import model.WeatherTemp;
 
-
+/*
+ * Classe che permette di calcolare massimo e minimo dato un vettore di pressioni o di temperature
+ */
 public class StatsMaxMin {
 	double max=0;
 	double min=0;
@@ -20,7 +22,9 @@ public class StatsMaxMin {
 		}
 	}
 
-	//metodo che calcola il valore massimo di un vettore di pressioni
+	/*
+	* Metodo che calcola il valore massimo di un vettore di pressioni
+	*/
 	public void setMax(Vector<WeatherPress> vett) {
 		for (int i=0; i<vett.size()-1; i++) {
 			if (vett.elementAt(i).getPressione() > max)
@@ -28,9 +32,10 @@ public class StatsMaxMin {
 		}
 	}
 	
-	//metodo che calcola il valore minimo di un vettore di temperature,
-	//per far ciò confronto solo i valori minimi registrati,
-	//la firma è diversificata da un char
+	/*Metodo che calcola il valore minimo di un vettore di temperature,
+	* per far ciò confronto solo i valori minimi registrati,
+	* la firma è diversificata da un char
+	*/
 	public void setMin(Vector<WeatherTemp> vett, char t) {
 		for (int i=0; i<vett.size()-1; i++) {
 			if (vett.elementAt(i).getTMin()<min)
@@ -38,8 +43,10 @@ public class StatsMaxMin {
 		}
 	}
 
-	//metodo che calcola il valore massimo di un vettore di temperature,
-	//per far ciò confronto solo i valori massimi registrati
+	/*
+	 *Metodo che calcola il valore massimo di un vettore di temperature,
+	 * per far ciò confronto solo i valori massimi registrati
+	*/
 	public void setMax(Vector<WeatherTemp> vett, char t) {
 		for (int i=0; i<vett.size()-1; i++) {
 			if (vett.elementAt(i).getTMax() > max)

@@ -48,9 +48,11 @@ public class StatsRequest {
 
 	/**
 	 * Metodo che calcola la media di temperatura degli ultimi giorni (inserito dall'utente)
+	 *  ritornando un oggetto che possiede come parametri la temperatura media e la media percepita
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
+	 * @return WeatherCollection
 	 * @throws FileNotFound 
 	 */
 	public WeatherCollection getTemperatureAvrg(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
