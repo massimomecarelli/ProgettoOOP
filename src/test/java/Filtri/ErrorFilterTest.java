@@ -10,6 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import model.Weather;
 
+/**
+ * @author Marco Pasquale Martino
+ *
+ */
 class ErrorFilterTest {
 
 	private Weather actual;

@@ -75,16 +75,15 @@ public class JsonParser {
 	 */
 	public void writeFile() {
 		try {
-			if(util.checkTime(weather)) {
-				PrintWriter file_output = new PrintWriter(new BufferedWriter(new FileWriter("src/main/resources/Weather.json",true)));
-				
-				for(int i=0;i<weather.size();i++) {
+			PrintWriter file_output = new PrintWriter(new BufferedWriter(new FileWriter("src/main/resources/Weather.json",true)));
+			for(int i=0;i<weather.size();i++) {
+				if(util.checkTime(weather.get(i))) {
 					Jobject=util.fillObject(weather.get(i));
 					file_output.println(Jobject);
+					System.out.println("File salvato!");
 				}
-				System.out.println("File salvato!");
-				file_output.close();
 			}
+			file_output.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Errore salvataggio file!");

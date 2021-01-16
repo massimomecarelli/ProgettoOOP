@@ -27,37 +27,23 @@ public class utility {
 		
 	}
 	
-	public boolean checkOra(String time) {
-		int[] ora= {0,3,6,9,12,15,18,21};
-		boolean check=false;
-		String[] tmp=time.split(" ");
-		String[] hour=tmp[1].split(":");
-		for(int i=0;i<ora.length;i++)
-			if(Integer.parseInt(hour[0])==ora[i]) check=true;
-		return check;
-	}
 	/**
 	 * Metodo che verifica se i dati ricevuti come parametro, sono già presenti nel file in basasandosi slla data odierna e sull'ora.
 	 * Restituisce TRUE se non sono presenti, FALSE altrimenti
 	 * @param weather dati da controllare
 	 * @return check valore booleano che indica l'esito del controllo
 	 */
-	public boolean checkTime(Vector<Weather> weather){
-		boolean check=true;
+	public boolean checkTime(Weather weather){
 		File file=new File("src/main/resources/Weather.json");
 		try {
 			if(file.exists()) {
 				Scanner file_input = new Scanner(new BufferedReader(new FileReader(file)));
-				for(int i=0;i<weather.size();i++) {
-					while(file_input.hasNextLine()) {
-						JSONObject Jobject=new JSONObject(file_input.nextLine());
-						if(Jobject.getDouble("lat")==weather.get(i).getLat()&&
-						   Jobject.getDouble("lon")==weather.get(i).getLon()){
-							if(Jobject.getString("date").equals(weather.get(i).getGiorno())&&
-							   checkOra(Jobject.getString("date"))) {
-									check=false;
-									break;
-							}
+				while(file_input.hasNextLine()) {
+					JSONObject Jobject=new JSONObject(file_input.nextLine());
+					if(Jobject.getDouble("lat")==weather.getLat()&&
+						Jobject.getDouble("lon")==weather.getLon()){
+						if(Jobject.getString("date").equals(weather.getGiorno())) {		
+							return false;
 						}
 					}
 				}
@@ -68,7 +54,7 @@ public class utility {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return check;
+		return true;
 	}
 	/**
 	 * Metodo ausiliaro per popolare un oggetto di tipo Weather a partire da un JSONObject

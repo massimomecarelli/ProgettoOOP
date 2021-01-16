@@ -53,7 +53,6 @@ public class ErrorFilter {
 			Scanner file_in=new Scanner(new BufferedReader(new FileReader(file)));
 			while(file_in.hasNextLine()) {
 				JSONObject Jobject=new JSONObject(file_in.nextLine());
-				System.out.println(actual.getGiorno());
 				if(Jobject.getDouble("lat")==lat&&Jobject.getDouble("lon")==lon
 				   &&Jobject.getString("date").equals(actual.getGiorno())) {
 					if(check<cnt) {

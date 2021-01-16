@@ -91,7 +91,7 @@ public class WeatherService {
 		System.out.println(DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm").format(LocalDateTime.now()));
 		for(int i=0;i<lat.length;i++) {
 			sugg.addAll(parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat[i]+"&lon="+lon[i]+
-					"&appid="+key+"&cnt="+33+"&units=metric&lang=it"));
+					"&appid="+key+"&cnt="+40+"&units=metric&lang=it"));
 		}
 		return sugg;
 	}
