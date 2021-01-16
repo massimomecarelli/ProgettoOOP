@@ -14,6 +14,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -110,11 +112,16 @@ public class JsonParser {
 
 	public Vector<Weather> readFile(double lat, double lon, int cnt,HttpServletResponse response) throws FileNotFound{
 		File file=new File("src/main/resources/Weather.json");
+		String key;
 		try {
+			key = Files.readString(Path.of("src/main/resources/key.txt"));
+			Vector<Weather> temp=readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+
+					"&appid="+key+"&cnt="+1+"&units=metric&lang=it");
 			Scanner file_input = new Scanner(new BufferedReader(new FileReader(file)));
 			while(file_input.hasNextLine()){
 				Jobject=new JSONObject(file_input.nextLine());
-				if(Jobject.getDouble("lat")==lat&&Jobject.getDouble("lon")==lon){
+				if(Jobject.getDouble("lat")==lat&&Jobject.getDouble("lon")==lon&&
+				   Jobject.getString("date").equals(temp.get(0).getGiorno())){
 					wet=util.fillWet(Jobject);
 					weather.add(0,wet);
 					if(weather.size()==cnt+1) {
@@ -128,6 +135,8 @@ public class JsonParser {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
 			throw new FileNotFound(e,response);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

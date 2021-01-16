@@ -73,15 +73,6 @@ public class WeatherService {
 	}
 
 	/**
-	* Metodo che visualizza tutto il file con le history
-	*/
-	/*@GetMapping(value="/alldata")
-	public JSONObject all(){
-		Utility utils = new Utility();
-		return utils.readAllFile();
-	}*/
-	
-	/**
 	 * Metodo che, ogni tre ore, legge automaticamente il meteo attuale di alcune città predefinite e le salva all'interno del file weather.json.
 	 * @return sugg lettura ottenuta tramite l'update.
 	 */
@@ -166,6 +157,7 @@ public class WeatherService {
 				stat.setPressMassima(lat, lon, 7, response);
 				stat.setPressMinima(lat, lon, 7, response);
 			} catch (FileNotFound | FileIsEmpty e) { e.printStackTrace();}
+			return stat;
 		}
 		else if (cnt.equals("mensile")){
 			try {
@@ -240,7 +232,9 @@ public class WeatherService {
 	}
 	
 	/**
-	 * 
+	 * Metodo che restituisce la percentuale di errore tra una misuarazione fatta in precendenza e una misurazione fatta in questo momento.
+	 * Il metodo restituirà dei valori solo se l'errore percentuale è minore o uguale ad una soglia di errore inserità dall'utente.
+	 * Nel caso in cui dovesse restituire NULL allora il il metodo stamperà un messaggio di errore che avviserà l'utente dell'esito.
 	 * @param lat latitudine della città
 	 * @param lon longitudine della città
 	 * @param cnt quantità di dati su cui calcolare l'errore
