@@ -1,7 +1,7 @@
 /**
  * 
  */
-package Filtri;
+package filtri;
 
 /**
  * @author Massimo

@@ -1,4 +1,4 @@
-package Parser;
+package parser;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,9 +21,9 @@ import org.springframework.web.client.RestTemplate;
 
 import model.Weather;
 
-public class utility {
+public class Utility {
 	
-	public utility() {
+	public Utility() {
 		
 	}
 	

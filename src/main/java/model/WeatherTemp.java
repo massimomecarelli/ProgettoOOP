@@ -3,7 +3,7 @@
  */
 package model;
 
-import Filtri.WeatherFilteredArchive;
+import filtri.WeatherFilteredArchive;
 
 /**
  * @author Massimo

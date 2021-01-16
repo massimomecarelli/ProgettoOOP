@@ -1,4 +1,4 @@
-package Filtri;
+package filtri;
 
 import model.Weather;
 

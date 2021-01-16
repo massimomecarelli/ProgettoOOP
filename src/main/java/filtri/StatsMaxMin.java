@@ -1,7 +1,9 @@
-package Filtri;
+package filtri;
 
 import java.util.Vector;
-import model.*;
+
+import model.WeatherPress;
+import model.WeatherTemp;
 
 
 public class StatsMaxMin {

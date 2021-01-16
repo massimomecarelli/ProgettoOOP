@@ -1,4 +1,4 @@
-package Filtri;
+package filtri;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import Parser.utility;
 import errors.FileNotFound;
 import model.Weather;
-import model.modelError;
+import model.ModelError;
+import parser.Utility;
 
 public class ErrorFilter {
 	private Vector<Weather> weather;
@@ -43,10 +43,10 @@ public class ErrorFilter {
 	 * @return error dati sulle statische riguardante gli errori
 	 * @throws FileNotFound eccezione che gestisce eventuali errori dovuti alla mancanza del file
 	 */
-	public Vector<modelError> getTempError(double lat, double lon, int cnt, double err, HttpServletResponse response) throws FileNotFound {
+	public Vector<ModelError> getTempError(double lat, double lon, int cnt, double err, HttpServletResponse response) throws FileNotFound {
 		int check=0;
-		utility util=new utility();
-		Vector<modelError> error=new Vector<modelError>();
+		Utility util=new Utility();
+		Vector<ModelError> error=new Vector<ModelError>();
 		Weather actual=util.getActual(lat,lon);
 		try {
 			File file=new File("src/main/resources/weather.json");
@@ -68,7 +68,7 @@ public class ErrorFilter {
 				double er=calculateError(weather.get(i), actual);
 				if(er<=err) {
 					String tmp=Double.toString(er)+"%";
-					modelError temp=new modelError(weather.get(i), actual, tmp);
+					ModelError temp=new ModelError(weather.get(i), actual, tmp);
 					error.add(temp);
 				}
 			}

@@ -1,12 +1,15 @@
 package Service;
-import model.*;
-import Filtri.*;
-import Parser.JsonParser;
+import parser.JsonParser;
 
 import org.springframework.web.bind.annotation.RestController;
 import errors.ErrorException;
 import errors.FileIsEmpty;
 import errors.FileNotFound;
+import filtri.ErrorFilter;
+import filtri.StatsRequest;
+import model.Weather;
+import model.WeatherCollection;
+import model.ModelError;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -248,13 +251,13 @@ public class WeatherService {
 	 * @throws FileNotFound eccezione per gestire eventuali errori per la mancanza di file
 	 */
 	@RequestMapping(value="/error", method=RequestMethod.GET)
-	public Vector<modelError> getError(
+	public Vector<ModelError> getError(
 			@RequestParam(value="lat") double lat,
 			@RequestParam(value="lon") double lon,
 			@RequestParam(value="cnt", defaultValue="1") int cnt,
 			@RequestParam(value="err") double err, HttpServletResponse response) throws FileNotFound{
 		ErrorFilter errorfilter=new ErrorFilter();
-		Vector<modelError> error=errorfilter.getTempError(lat, lon, cnt, err, response);
+		Vector<ModelError> error=errorfilter.getTempError(lat, lon, cnt, err, response);
 		if(error.isEmpty()) throw new ErrorException(response,err);
 		return error;
 	}

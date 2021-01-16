@@ -1,6 +1,6 @@
 package model;
 
-public class modelError {
+public class ModelError {
 	private String dataLettura;
 	private String giornoPrevisto;
 	private String erroreLettura;
@@ -13,7 +13,7 @@ public class modelError {
 	private int pressionePrevista;
 	private int pressioneCorretta;
 	
-	public modelError(Weather wet, Weather actual, String error) {
+	public ModelError(Weather wet, Weather actual, String error) {
 		this.erroreLettura=error;
 		setGiornoPrevisione(wet.getGiorno());
 		System.out.println(wet.getGiorno());

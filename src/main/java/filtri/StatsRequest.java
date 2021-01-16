@@ -1,12 +1,15 @@
-package Filtri;
+package filtri;
 
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletResponse;
 
-import Parser.JsonParser;
 import errors.*;
-import model.*;
+import model.Weather;
+import model.WeatherCollection;
+import model.WeatherPress;
+import model.WeatherTemp;
+import parser.JsonParser;
 
 
 

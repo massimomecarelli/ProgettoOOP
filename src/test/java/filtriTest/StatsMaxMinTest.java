@@ -1,4 +1,4 @@
-package Filtri;
+package filtriTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import filtri.StatsMaxMin;
 import model.Weather;
 import model.WeatherPress;
 import java.util.Vector;

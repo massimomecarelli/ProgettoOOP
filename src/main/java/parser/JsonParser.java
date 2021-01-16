@@ -1,4 +1,4 @@
-package Parser;
+package parser;
 
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,7 +34,7 @@ public class JsonParser {
 	private JSONObject Jobject;
 	private Vector<Weather> weather=new Vector<Weather>();
 	private Weather wet;
-	private utility util=new utility();
+	private Utility util=new Utility();
 	
 	/**
 	 * Costruttore della classe parser che istanzia un oggetto della classe Weather.
