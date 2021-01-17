@@ -12,13 +12,14 @@ public class StatsMaxMin {
 	double max=0;
 	double min=0;
 	
-	StatsMaxMin(){}
+	public StatsMaxMin(){}
 	
 	//metodo che calcola il valore minimo di un vettore di pressioni
 	public void setMin(Vector<WeatherPress> vett) {
-		for (int i=0; i<vett.size()-1; i++) {
-			if (vett.elementAt(i).getPressione()<min)
-				min=vett.elementAt(i).getPressione();
+		this.min = vett.elementAt(0).getPressione();
+		for (int i=1; i<vett.size(); i++) {
+			if (vett.elementAt(i).getPressione() < min)
+				this.min=vett.elementAt(i).getPressione();
 		}
 	}
 
@@ -26,9 +27,10 @@ public class StatsMaxMin {
 	* Metodo che calcola il valore massimo di un vettore di pressioni
 	*/
 	public void setMax(Vector<WeatherPress> vett) {
-		for (int i=0; i<vett.size()-1; i++) {
+		this.max = vett.elementAt(0).getPressione();
+		for (int i=1; i<vett.size(); i++) {
 			if (vett.elementAt(i).getPressione() > max)
-				max=vett.elementAt(i).getPressione();
+				this.max=vett.elementAt(i).getPressione();
 		}
 	}
 	
@@ -37,9 +39,10 @@ public class StatsMaxMin {
 	* la firma è diversificata da un char
 	*/
 	public void setMin(Vector<WeatherTemp> vett, char t) {
-		for (int i=0; i<vett.size()-1; i++) {
-			if (vett.elementAt(i).getTMin()<min)
-				min=vett.elementAt(i).getTMin();
+		this.min = vett.elementAt(0).getTMin();
+		for (int i=1; i<vett.size(); i++) {
+			if (vett.elementAt(i).getTMin() < min)
+				this.min=vett.elementAt(i).getTMin();
 		}
 	}
 
@@ -48,9 +51,10 @@ public class StatsMaxMin {
 	 * per far ciò confronto solo i valori massimi registrati
 	*/
 	public void setMax(Vector<WeatherTemp> vett, char t) {
-		for (int i=0; i<vett.size()-1; i++) {
+		this.max = vett.elementAt(0).getTMax();
+		for (int i=1; i<vett.size(); i++) {
 			if (vett.elementAt(i).getTMax() > max)
-				max=vett.elementAt(i).getTMax();
+				this.max=vett.elementAt(i).getTMax();
 		}
 	}
 	

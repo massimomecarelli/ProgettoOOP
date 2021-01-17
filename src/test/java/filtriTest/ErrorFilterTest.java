@@ -23,6 +23,7 @@ class ErrorFilterTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		wet = new Vector<Weather>();
 		error=new ErrorFilter();
 		actual=new Weather(51.51,-0.13,2.40,3.02,3.00,1029,1610733600,"15-01-2021, 16:21","15-01-2021 18:00","Londra");
 		wet.add(new Weather(51.51,-0.13,2.36,3.02,3.02,1031,1610733600,"15-01-2021, 16:21","15-01-2021 18:00","Londra"));

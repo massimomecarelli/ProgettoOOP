@@ -18,17 +18,17 @@ import java.util.Vector;
 
 class StatsMaxMinTest {
 	
-	Vector<WeatherPress> vett;
+	Vector<WeatherPress> vett = new Vector<WeatherPress>();
 	WeatherPress press;
 	Weather wet;
-	StatsMaxMin m;
+	StatsMaxMin m = new StatsMaxMin();
 
 	@BeforeEach
 	void setUp() {
 		for (int i=1; i<=5; i++) {
-			if (i%2==0)
-				wet.setPressione(i*2);
-			else wet.setPressione(i*3);
+			wet = new Weather();
+			wet.setPressione(i);
+			press = new WeatherPress();
 			press.setter(wet);
 			vett.add(press);
 		}
@@ -40,13 +40,13 @@ class StatsMaxMinTest {
 	@Test
 	void testSetMinVectorOfWeatherPress() {
 		m.setMin(vett);
-		assertEquals(m.getMin(), 3);
+		assertEquals(1, m.getMin());
 	}
 
 	@Test
 	void testSetMaxVectorOfWeatherPress() {
 		m.setMax(vett);
-		assertEquals(m.getMax(), 15);
+		assertEquals(5, m.getMax());
 	}
 
 }

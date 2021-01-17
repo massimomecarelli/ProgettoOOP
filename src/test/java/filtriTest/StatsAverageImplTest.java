@@ -17,8 +17,8 @@ import java.util.Vector;
 
 class StatsAverageImplTest {
 	
-	private Vector<Double> vett;
-	private StatsAverageImpl error;
+	private Vector<Double> vett = new Vector<Double>();
+	private StatsAverageImpl error = new StatsAverageImpl ();
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -40,6 +40,6 @@ class StatsAverageImplTest {
 
 	@Test
 	void testGetMedia() {
-		assertEquals(error.getMedia(vett), 11);
+		assertEquals(11, error.getMedia(vett));
 	}
 }
