@@ -7,7 +7,7 @@ import filtri.WeatherFilteredArchive;
  *
  * Classe che implementa l'interfaccia WeatherFilteredArchive
  * per permettere l'estrazione dei soli parametri riguardanti la pressione
- * da un archivio di tipo Weather
+ * da un archivio di tipo Weather.
  */
 public class WeatherPress implements WeatherFilteredArchive {
 
