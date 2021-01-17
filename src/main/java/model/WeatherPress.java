@@ -11,7 +11,7 @@ import filtri.WeatherFilteredArchive;
  */
 public class WeatherPress implements WeatherFilteredArchive {
 
-	private double Pressione;
+	private int Pressione;
 
 	public WeatherPress() {}
 
@@ -20,7 +20,7 @@ public class WeatherPress implements WeatherFilteredArchive {
 		Pressione=weather.getPressione();
 	}
 	
-	public double getPressione() {
+	public int getPressione() {
 		return Pressione;
 	}
 
