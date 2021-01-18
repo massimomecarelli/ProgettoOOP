@@ -109,7 +109,7 @@ public class WeatherService {
 		//leggo dall'API, passando il tipo di Json e l'url al parser
 		
 		return parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+
-				"&appid="+key+"&cnt="+(cnt*8)+"&units=metric&lang=it");
+				"&appid="+key+"&cnt="+cnt+"&units=metric&lang=it");
 	}
 	
 	/**

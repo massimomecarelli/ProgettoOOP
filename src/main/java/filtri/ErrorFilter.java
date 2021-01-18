@@ -48,6 +48,7 @@ public class ErrorFilter {
 		Utility util=new Utility();
 		Vector<ModelError> error=new Vector<ModelError>();
 		Weather actual=util.getActual(lat,lon);
+		if(cnt>5) cnt=5;
 		try {
 			File file=new File("src/main/resources/weather.json");
 			Scanner file_in=new Scanner(new BufferedReader(new FileReader(file)));

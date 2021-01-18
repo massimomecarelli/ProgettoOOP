@@ -1,6 +1,7 @@
 package model;
 
 public class ModelError {
+	private String nome;
 	private String dataLettura;
 	private String giornoPrevisto;
 	private String erroreLettura;
@@ -15,8 +16,8 @@ public class ModelError {
 	
 	public ModelError(Weather wet, Weather actual, String error) {
 		this.erroreLettura=error;
+		setNome(wet.getNome());
 		setGiornoPrevisione(wet.getGiorno());
-		System.out.println(wet.getGiorno());
 		setDataLettura(wet.getDataLettura());
 		
 		setTempMaxPrevista(wet.getTempMax());
@@ -27,6 +28,10 @@ public class ModelError {
 		setTempPercepitàCorretta(actual.getTempPercepita());
 		setPressionePrevista(wet.getPressione());
 		setPressioneCorretta(actual.getPressione());
+	}
+	
+	public void setNome(String nome) {
+		this.nome=nome;
 	}
 	
 	public void setDataLettura(String dataLettura) {
@@ -71,6 +76,10 @@ public class ModelError {
 	
 	public void setPressioneCorretta(int pressione) {
 		pressioneCorretta=pressione;
+	}
+	
+	public String getNome() {
+		return nome;
 	}
 	
 	public String getDataLettura() {

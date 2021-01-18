@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Resource(name="ErrorException")
+@Resource(name="FileIsEmpty")
 @SpringBootApplication
 @ComponentScan({"Service"})
 @EnableScheduling
