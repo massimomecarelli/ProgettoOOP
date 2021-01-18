@@ -16,12 +16,13 @@ import parser.JsonParser;
 /**
  * @author Massimo Mecarelli
  * 
- * Descrizione di StatsRequest.
+ * Classe che restituisce dati utili direttamente a WeatherService
  */
 public class StatsRequest {
 	
 	private double Max=0;
 	private double Min=0;
+	
 
 	/**
 	 * Costruttore
@@ -35,6 +36,7 @@ public class StatsRequest {
 	 * @param lat
 	 * @param lon 
 	 * @param cnt 
+	 * @return Vector<Weather>
 	 * @throws FileNotFound 
 	 */
 	public Vector<Weather> getAll(double lat, double lon, int cnt, HttpServletResponse response) {
@@ -53,6 +55,7 @@ public class StatsRequest {
 	 * @param lon 
 	 * @param cnt
 	 * @return WeatherCollection
+	 * @throws FileIsEmpty
 	 * @throws FileNotFound 
 	 */
 	public WeatherCollection getTemperatureAvrg(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
@@ -83,18 +86,23 @@ public class StatsRequest {
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
+	 * @return void
 	 * @throws FileNotFound 
+	 * @throws FileIsEmpty
 	 */
 	public void setTemperatureMax(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		//aggiunta di un vettore WeatherCollection per prendere valori di media
 		Vector<WeatherTemp> weatherTemp = new Vector<WeatherTemp>();
 		Vector<Weather> weather = new Vector<Weather>();
 		JsonParser parser = new JsonParser();
+		WeatherTemp wTemp = new WeatherTemp();
+		
 		weather = parser.readFile(lat, lon, cnt, response);
 		if (weather==null)
 			throw new FileIsEmpty ("Il file è vuoto!",response);
 		for (int i=0; i<weather.size(); i++){
-			weatherTemp.get(i).setter(weather.get(i));
+			wTemp.setter(weather.get(i));
+			weatherTemp.add(wTemp);
 		}
 		//trovo il valore massimo
 		StatsMaxMin max = new StatsMaxMin();
@@ -107,66 +115,78 @@ public class StatsRequest {
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
+	 * @return void
 	 * @throws FileNotFound 
+	 * @throws FileIsEmpty
 	 */
 	public void setTemperatureMin(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		//aggiunta di un vettore WeatherCollection per prendere valori di media
 		Vector<WeatherTemp> weatherTemp = new Vector<WeatherTemp>();
 		Vector<Weather> weather = new Vector<Weather>();
 		JsonParser parser = new JsonParser();
+		WeatherTemp wTemp = new WeatherTemp();
+		
 		weather = parser.readFile(lat, lon, cnt, response);
 		if (weather==null)
 			throw new FileIsEmpty ("Il file è vuoto!",response);
 		for (int i=0; i<weather.size(); i++){
-			weatherTemp.get(i).setter(weather.get(i));
+			wTemp.setter(weather.get(i));
+			weatherTemp.add(wTemp);
 		}
 		//trovo il valore minimo
 		StatsMaxMin min = new StatsMaxMin();
 		min.setMin(weatherTemp, 't');
 		this.Min = min.getMin();
+		
 	}
-	
 	
 	/**
 	 * Metodo che prende il valore massimo delle pressioni nei giorni precedenti (inserito dall'utente)
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
+	 * @return void
 	 * @throws FileNotFound 
+	 * @throws FileIsEmpty
 	 */
 	public void setPressMassima(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		Vector<Weather> weather = new Vector<Weather>();
 		Vector<WeatherPress> weatherPress = new Vector<WeatherPress>();
+		WeatherPress wPress = new WeatherPress();
 		JsonParser parser = new JsonParser();
 		weather = parser.readFile(lat, lon, cnt, response);
 		if (weather==null)
 			throw new FileIsEmpty ("Il file è vuoto!",response);
 		for(int i=0; i<weather.size(); i++){
-			weatherPress.get(i).setter(weather.get(i));
+			wPress.setter(weather.get(i));
+			weatherPress.add(wPress);
 		}
 		//trovo il valore massimo
 		StatsMaxMin max = new StatsMaxMin();
-		max.setMin(weatherPress);
+		max.setMax(weatherPress);
 		this.Max=max.getMax();
 	}
-
 
 	/**
 	 * Metodo che prende il valore minimo delle pressioni nei giorni precedenti (inserito dall'utente)
 	 * @param lat 
 	 * @param lon 
 	 * @param cnt
+	 * @return void
 	 * @throws FileNotFound 
+	 * @throws FileIsEmpty
 	 */
 	public void setPressMinima(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		Vector<Weather> weather = new Vector<Weather>();
 		Vector<WeatherPress> weatherPress = new Vector<WeatherPress>();
 		JsonParser parser = new JsonParser();
+		WeatherPress wPress = new WeatherPress();
 		weather = parser.readFile(lat, lon, cnt, response);
 		if (weather==null)
 			throw new FileIsEmpty ("Il file è vuoto!",response);
 		for(int i=0; i<weather.size(); i++){
-			weatherPress.get(i).setter(weather.get(i));
+			wPress.setter(weather.get(i));
+			weatherPress.add(wPress);
 		}
 		//trovo il valore minimo
 		StatsMaxMin min = new StatsMaxMin();
@@ -176,21 +196,17 @@ public class StatsRequest {
 
 	/**
 	 * Metodo che restituisce il valore minimo delle pressioni nei giorni precedenti (inserito dall'utente)
-	 * @param lat 
-	 * @param lon 
-	 * @param cnt
+	 * @return double
 	 */
-	public double getMin(double lat, double lon, int cnt){
+	public double getMin(){
 		return Min;
 	}
 
 	/**
 	 * Metodo che restituisce il valore massimo delle pressioni nei giorni precedenti (inserito dall'utente)
-	 * @param lat 
-	 * @param lon 
-	 * @param cnt
+	 * @return double
 	 */
-	public double getMax(double lat, double lon, int cnt){
+	public double getMax(){
 		return Max;
 	}
 

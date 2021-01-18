@@ -14,7 +14,9 @@ public class StatsMaxMin {
 	
 	public StatsMaxMin(){}
 	
-	//metodo che calcola il valore minimo di un vettore di pressioni
+	/*
+	 * metodo che calcola il valore minimo di un vettore di pressioni
+	 */
 	public void setMin(Vector<WeatherPress> vett) {
 		this.min = vett.elementAt(0).getPressione();
 		for (int i=1; i<vett.size(); i++) {
@@ -47,7 +49,7 @@ public class StatsMaxMin {
 	}
 
 	/*
-	 *Metodo che calcola il valore massimo di un vettore di temperature,
+	 * Metodo che calcola il valore massimo di un vettore di temperature,
 	 * per far ciò confronto solo i valori massimi registrati
 	*/
 	public void setMax(Vector<WeatherTemp> vett, char t) {

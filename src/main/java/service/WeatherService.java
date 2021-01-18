@@ -224,10 +224,11 @@ public class WeatherService {
 				return stat.getTemperatureAvrg(lat, lon, 7, response);
 			else if (cnt.equals("mensile"))
 				return stat.getTemperatureAvrg(lat, lon, 30, response);
-			else System.out.println("Periodo non valido");
+			
 		} catch (FileNotFound | FileIsEmpty e) {
 			e.printStackTrace();
 		}
+		System.out.println("Periodo non valido");
 		return null;
 	}
 	
