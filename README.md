@@ -10,7 +10,7 @@ Lo scopo del progetto è quello di implementare un servizio meteo che fornisca, 
 
 **Diagramma dei casi d'uso**
 
-![Casi d'uso](./Diagrammi/Casi d'Uso.jpg)
+![Casi d'uso](./Diagrammi/useCase.jpg)
 
 L'esecuzione del'servizio avviene tramite **"localhost:8080"** , sfruttando varie Path in base all'oprazione richiesta:
 
