@@ -112,6 +112,8 @@ Le stringhe consentite sono:
 
 ![Esempio di risposta /stats/temperature/medie](./preview/medie.png)
 
+# DIAGRAMMI UML
+
 **Diagrammi delle classi**
 
 - Package service
