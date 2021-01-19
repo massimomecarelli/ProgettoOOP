@@ -115,4 +115,52 @@ Le stringhe consentite sono:
 **Diagrammi delle classi**
 
 - Package service
-  [!packageService](./Diagrammi/ClassDiagrams/service.png)
+
+![packageService](./Diagrammi/ClassDiagrams/service.png)
+
+- Package model
+
+![packageModel](./Diagrammi/ClassDiagrams/model.png)
+
+- Package parser
+
+![packageParser](./Diagrammi/ClassDiagrams/parser.png)
+
+- Package filtri
+
+![packageFiltri](./Diagrammi/ClassDiagrams/filtri.png)
+
+- Package errors
+
+![packageErrors](./Diagrammi/ClassDiagrams/errors.png)
+
+**Diagramma di Sequenza**
+
+- localhost:8080/weather?{lat,lon,cnt}
+
+![sequenceWeather](./Diagrammi/Sequenza/weatherSequence.jpg)
+
+- localhost:8080/update
+
+![sequenceUpdate](./Diagrammi/Sequenza/updateSequence.jpg)
+
+- localhost:8080/stats/temperature/maxmin?{lat,lon,cnt}
+
+![sequenceStatsTempMaxMin](./Diagrammi/Sequenza/statsTempMaxMinSequence.jpg)
+
+- localhost:8080/stats/temperature/medie?{lat,lon,cnt}
+
+![sequenceStatsTempAvrg](./Diagrammi/Sequenza/statsTempAvrgSequence.jpg)
+
+- localhost:8080/stats/pressione?{lat,lon,cnt}
+
+![sequenceStatsPressione](./Diagrammi/Sequenza/statsPressSequence.jpg)
+
+- localhost:8080/error?{lat,lon,cnt,err}
+
+![sequenceError](./Diagrammi/Sequenza/errorSequence.jpg)
+
+#AUTORI
+
+- Massimo Mecarelli. Contributo: 50%
+- Marco Pasquale Martino. Contributo: 50%
