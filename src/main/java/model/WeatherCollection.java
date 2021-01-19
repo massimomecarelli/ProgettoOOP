@@ -12,6 +12,7 @@ public class WeatherCollection {
 	 */
 	private double TempMedia;
 	private double TempMediaPerc;
+	private String nome;
 	/**
 	 * Costruttore
 	 */
@@ -29,6 +30,10 @@ public class WeatherCollection {
 	public void setTempMediaPerc(double media) {
 		this.TempMediaPerc=media;
 	}
+	
+	public void setNome(String nome) {
+		this.nome=nome;
+	}
 
 	/**
 	 * @return TempMedia 
@@ -37,6 +42,9 @@ public class WeatherCollection {
 		return this.TempMedia;
 	}
 	
+	public String getNome() {
+		return nome;
+	}
 	
 	/**
 	 * @return TempMediaPerc

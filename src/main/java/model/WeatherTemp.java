@@ -18,10 +18,18 @@ public class WeatherTemp implements WeatherFilteredArchive {
 	private double TempMin;
 	private double TempPerc;
 	
+	public WeatherTemp() {
+		
+	}
+	
+	public WeatherTemp(Weather weather) {
+		setter(weather);
+	}
+	
 	@Override
 	public void setter(Weather weather) {
 		TempMax=weather.getTempMax();
-		TempMax=weather.getTempMin();
+		TempMin=weather.getTempMin();
 		TempPerc=weather.getTempPercepita();
 	}
 	

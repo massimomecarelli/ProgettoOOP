@@ -8,6 +8,10 @@ Lo scopo del progetto è quello di implementare un servizio meteo che fornisca, 
 
 # FUNZIONAMENTO
 
+**Diagramma dei casi d'uso**
+
+![Casi d'uso](./Diagrammi/Casi d'Uso.jpg)
+
 L'esecuzione del'servizio avviene tramite **"localhost:8080"** , sfruttando varie Path in base all'oprazione richiesta:
 
 **PARAMETRI**
@@ -61,3 +65,49 @@ confronta i dati relativi a temperatura e pressione calcolati in precedenza (con
 **Esempio di riposta**
 
 ![Esempio di risposta /error](./preview/error.png)
+
+**5)**
+Metodo | Path |
+---- | ---- |
+GET | localhost:8080/stats/pressione?lat={lat}&lon={lon}&cnt={cnt}
+
+legge il file weather.json, ed estrapola i dati relativi al quantitativo di giorni specificati nel cnt, in questa chiamata il **cnt** dovrà essere inserito come stringa, ogni stringa preleverà un quantitativo diverso di dati su cui individuare la pressione massima e minima della città specificata.
+Le stringhe consentite sono: 
+- giornaliero, preleverà i dati di una giornata (8); 
+- settimanale, preleverà i dati di una settimana (56); 
+- mensile, preleverà i dati di un mese (240).
+
+**Esempio di risposta**
+
+![Esempio di risposta /stats/pressione](./preview/pressione.png)
+
+**6)**
+Metodo | Path |
+---- | ---- |
+GET | localhost:8080/stats/temperature/maxmin?lat={lat}&lon={lon}&cnt={cnt}&err={err}
+
+legge il file weather.json, ed estrapola i dati relativi al quantitativo di giorni specificati nel cnt, in questa chiamata il **cnt** dovrà essere inserito come stringa, ogni stringa preleverà un quantitativo diverso di dati su cui individuare la temperatura massima e minima della città specificata.
+Le stringhe consentite sono: 
+- giornaliero, preleverà i dati di una giornata (8); 
+- settimanale, preleverà i dati di una settimana (56); 
+- mensile, preleverà i dati di un mese (240).
+
+**Esempio di risposta**
+
+![Esempio di risposta /stats/temperature/maxmin](./preview/maxmin.png)
+
+**7)**
+
+Metodo | Path |
+---- | ---- |
+GET | localhost:8080/stats/temperature/medie?lat={lat}&lon={lon}&cnt={cnt}
+
+legge il file weather.json, ed estrapola i dati relativi al quantitativo di giorni specificati nel cnt, in questa chiamata il **cnt** dovrà essere inserito come stringa, ogni stringa preleverà un quantitativo diverso di dati su cui individuare la temperatura media e temepratura media percepita della città specificata.
+Le stringhe consentite sono: 
+- giornaliero, preleverà i dati di una giornata (8); 
+- settimanale, preleverà i dati di una settimana (56); 
+- mensile, preleverà i dati di un mese (240).
+
+**Esempio di risposta**
+
+![Esempio di risposta /stats/temperature/medie](./preview/medie.png)

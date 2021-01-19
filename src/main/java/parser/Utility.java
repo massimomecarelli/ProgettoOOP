@@ -70,7 +70,7 @@ public class Utility {
 			wet.setLat((Double)Jobject.get("lat"));
 			wet.setDateTime((Integer)Jobject.get("dt"));
 			wet.setGiorno((String)Jobject.getString("date"));
-			wet.setTemp((Double)Jobject.get("temp"));
+			wet.setTemp((Double) Jobject.get("temp"));
 			wet.setTempMin((Double)Jobject.get("tempMin"));
 			wet.setTempMax((Double)Jobject.get("tempMax"));
 			wet.setPressione((Integer)Jobject.get("pressure"));
@@ -95,9 +95,9 @@ public class Utility {
 			Jobject.put("lon", wet.getLon());
 			Jobject.put("dt", wet.getDateTime());
 			Jobject.put("date", wet.getGiorno());
-			Jobject.put("temp", wet.getTempPercepita());
-			Jobject.put("tempMax", wet.getTempMax());
-			Jobject.put("tempMin", wet.getTempMin());
+			Jobject.put("temp",(double)wet.getTempPercepita());
+			Jobject.put("tempMax",(double)wet.getTempMax());
+			Jobject.put("tempMin",(double)wet.getTempMin());
 			Jobject.put("pressure", wet.getPressione());
 			Jobject.put("lettura", wet.getDataLettura());
 		}catch(JSONException e) {

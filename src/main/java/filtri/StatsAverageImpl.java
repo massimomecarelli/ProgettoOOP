@@ -21,6 +21,7 @@ package filtri;
 				t+=vett.elementAt(i);
 			}
 			t/=vett.size();
+			t=Math.round(t*Math.pow(10,2))/Math.pow(10,2);
 			return t;
 		}
 

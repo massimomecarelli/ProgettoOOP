@@ -9,8 +9,8 @@ import model.WeatherTemp;
  * Classe che permette di calcolare massimo e minimo dato un vettore di pressioni o di temperature
  */
 public class StatsMaxMin {
-	double max=0;
-	double min=0;
+	double max;
+	double min;
 	
 	public StatsMaxMin(){}
 	
@@ -36,15 +36,16 @@ public class StatsMaxMin {
 		}
 	}
 	
-	/*Metodo che calcola il valore minimo di un vettore di temperature,
+	/**
+	* Metodo che calcola il valore minimo di un vettore di temperature,
 	* per far ciò confronto solo i valori minimi registrati,
 	* la firma è diversificata da un char
 	*/
 	public void setMin(Vector<WeatherTemp> vett, char t) {
-		this.min = vett.elementAt(0).getTMin();
+		this.min = vett.get(0).getTMin();
 		for (int i=1; i<vett.size(); i++) {
-			if (vett.elementAt(i).getTMin() < min)
-				this.min=vett.elementAt(i).getTMin();
+			if (vett.get(i).getTMin() < this.min)
+				this.min=vett.get(i).getTMin();
 		}
 	}
 
@@ -53,10 +54,10 @@ public class StatsMaxMin {
 	 * per far ciò confronto solo i valori massimi registrati
 	*/
 	public void setMax(Vector<WeatherTemp> vett, char t) {
-		this.max = vett.elementAt(0).getTMax();
+		this.max=vett.get(0).getTMax();
 		for (int i=1; i<vett.size(); i++) {
-			if (vett.elementAt(i).getTMax() > max)
-				this.max=vett.elementAt(i).getTMax();
+			if (vett.get(i).getTMax() > this.max)
+				this.max=vett.get(i).getTMax();
 		}
 	}
 	

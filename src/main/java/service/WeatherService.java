@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -111,30 +110,14 @@ public class WeatherService {
 		return parser.readAPI("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+
 				"&appid="+key+"&cnt="+cnt+"&units=metric&lang=it");
 	}
+
 	
 	/**
-	 * Metodo che restituisce le statistiche generali di una determinata città, in un lasso di tempo deciso dall'utente.
+	 * Richiedere statistiche relative alla pressione in un determinato lasso di tempo (definito dall'utente), di una determinata città, scelta dall'utente
+	 * tramite l'inserimento delle sue coordinate.
 	 * @param lat latitudine della città
 	 * @param lon longitudine della città
-	 * @param cnt quantità di dati su cui generale le statistiche
-	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
-	 * @return statistiche calcolate
-	 */
-	@RequestMapping(value="/stats", method=RequestMethod.GET)
-	public Vector<Weather> getStats(
-			@RequestParam(value="lat") double lat, 
-			@RequestParam(value="lon") double lon,
-			@RequestParam(value="cnt", defaultValue="1")int cnt, HttpServletResponse response) {
-		
-		StatsRequest stat= new StatsRequest();
-		return stat.getAll(lat, lon, cnt, response);
-	}
-	
-	/**
-	 * Richiedere statistiche relative alla pressione
-	 * @param lat latitudine della città
-	 * @param lon longitudine della città
-	 * @param cnt quantità di dati su cui generale le statistiche
+	 * @param cnt lasso di tempo su cui generare le statistiche
 	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
 	 * @return statistiche calcolate
 	 */
@@ -147,22 +130,22 @@ public class WeatherService {
 		StatsRequest stat = new StatsRequest();
 		if (cnt.equals("giornaliero")){
 			try {
-				stat.setPressMassima(lat, lon, 1, response);
-				stat.setPressMinima(lat, lon, 1, response);
+				stat.setPressMassima(lat, lon, 8, response);
+				stat.setPressMinima(lat, lon, 8, response);
 			} catch (FileNotFound | FileIsEmpty e) { e.printStackTrace();}
 			return stat;
 		}
 		else if (cnt.equals("settimanale")){
 			try {
-				stat.setPressMassima(lat, lon, 7, response);
-				stat.setPressMinima(lat, lon, 7, response);
+				stat.setPressMassima(lat, lon, (7*8), response);
+				stat.setPressMinima(lat, lon, (7*8), response);
 			} catch (FileNotFound | FileIsEmpty e) { e.printStackTrace();}
 			return stat;
 		}
 		else if (cnt.equals("mensile")){
 			try {
-				stat.setPressMassima(lat, lon, 30, response);
-				stat.setPressMinima(lat, lon, 30, response);
+				stat.setPressMassima(lat, lon, (30*8), response);
+				stat.setPressMinima(lat, lon, (30*8), response);
 			}catch (FileNotFound | FileIsEmpty e) { e.printStackTrace();}
 			return stat;
 		}
@@ -171,14 +154,14 @@ public class WeatherService {
 	}
 	
 	/**
-	 * Richiede statistiche relative alla temperatura massima e minima in un determinato lasso di tempo
+	 * Metodo che restituisce una media della temperatura massima e minima in un determinato lasso di tempo, di una determinata città.
+	 * La città viene scelta dall'utente tramite le sue coordinate.
 	 * @param lat latitudine della città
 	 * @param lon longitudine della città
-	 * @param cnt quantità di dati su cui generale le statistiche
+	 * @param cnt lasso di tempo su cui generare le statistiche
 	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
 	 * @return statistiche calcolate
 	 */
-	@ExceptionHandler({ FileNotFound.class })
 	@RequestMapping(value="/stats/temperature/maxmin", method=RequestMethod.GET)
 	public StatsRequest getTemMinMax(
 			@RequestParam(value="lat") double lat, 
@@ -188,18 +171,18 @@ public class WeatherService {
 		
 		StatsRequest stat = new StatsRequest();
 		if (cnt.equals("giornaliero")){
-			stat.setTemperatureMax(lat, lon, 1, response);
-			stat.setTemperatureMin(lat, lon, 1, response);
+			stat.setTemperatureMax(lat, lon, 8, response);
+			stat.setTemperatureMin(lat, lon, 8, response);
 			return stat;
 		}
 		else if (cnt.equals("settimanale")){
-			stat.setTemperatureMax(lat, lon, 7, response);
-			stat.setTemperatureMin(lat, lon, 7, response);
+			stat.setTemperatureMax(lat, lon, (7*8), response);
+			stat.setTemperatureMin(lat, lon, (7*8), response);
 			return stat;
 		}
 		else if (cnt.equals("mensile")){
-			stat.setTemperatureMax(lat, lon, 30, response);
-			stat.setTemperatureMin(lat, lon, 30, response);
+			stat.setTemperatureMax(lat, lon, (30*8), response);
+			stat.setTemperatureMin(lat, lon, (30*8), response);
 			return stat;
 		}
 		else System.out.println("Periodo non valido");
@@ -207,9 +190,13 @@ public class WeatherService {
 	}
 
 	/*
-	* Metodo che restituisce la temperatura media e la media percepita
+	* Metodo che restituisce la temperatura media e la temperatura media percepita in un lasso di tempo e in una città, entrambi decisi dall'utente 
+	* tramite i paramentri della chiamata.
+	* @param lat latitudine della città
+	* @param lon longitudine della città
+	* @param cnt lasso di tempo su cui generare le statistiche
+	* @return statistiche calcolate
 	*/
-	@ExceptionHandler({ FileNotFound.class })
 	@RequestMapping(value="/stats/temperature/medie", method=RequestMethod.GET)
 	public WeatherCollection getTemMedie(
 			@RequestParam(value="lat") double lat, 
@@ -219,11 +206,11 @@ public class WeatherService {
 		StatsRequest stat = new StatsRequest();
 		try {
 			if (cnt.equals("giornaliero"))
-				return stat.getTemperatureAvrg(lat, lon, 1, response);
+				return stat.getTemperatureAvrg(lat, lon, 8, response);
 			else if (cnt.equals("settimanale"))
-				return stat.getTemperatureAvrg(lat, lon, 7, response);
+				return stat.getTemperatureAvrg(lat, lon, (7*8), response);
 			else if (cnt.equals("mensile"))
-				return stat.getTemperatureAvrg(lat, lon, 30, response);
+				return stat.getTemperatureAvrg(lat, lon, (30*8), response);
 			
 		} catch (FileNotFound | FileIsEmpty e) {
 			e.printStackTrace();
