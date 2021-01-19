@@ -160,7 +160,7 @@ Le stringhe consentite sono:
 
 ![sequenceError](./Diagrammi/Sequenza/errorSequence.jpg)
 
-#AUTORI
+# AUTORI
 
 - Massimo Mecarelli. Contributo: 50%
 - Marco Pasquale Martino. Contributo: 50%
