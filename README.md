@@ -111,3 +111,8 @@ Le stringhe consentite sono:
 **Esempio di risposta**
 
 ![Esempio di risposta /stats/temperature/medie](./preview/medie.png)
+
+**Diagrammi delle classi**
+
+- Package service
+  [!packageService](./Diagrammi/ClassDiagrams/service.png)
