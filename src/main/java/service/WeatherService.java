@@ -73,7 +73,7 @@ public class WeatherService {
 
 	/**
 	 * Metodo che, ogni tre ore, legge automaticamente il meteo attuale di alcune città predefinite e le salva all'interno del file weather.json.
-	 * @return sugg lettura ottenuta tramite l'update.
+	 * @return sugg : lettura ottenuta tramite l'update.
 	 */
 	@Scheduled(fixedRate=10800000)
 	@RequestMapping(value="/update")
@@ -92,9 +92,9 @@ public class WeatherService {
 	 * Metodo che, tramite latitudine e longitudine, manda una richiesta a OpenWeather.
 	 * Una volta effettuata la richiesta, i dati ricevuti, se non presenti, saranno memorizzati all'interno del file weather.json il quale funge da storico.
 	 * Tramite il parametro "cnt", sarà possibile scegliere quante letture visualizzare (con un intervallo di 3 ore tra un dato e l'altro).
-	 * @param lat latitudine della città
-	 * @param lon longitudine della città
-	 * @param cnt quantità di dati da richiedere al server
+	 * @param lat : latitudine della città
+	 * @param lon : longitudine della città
+	 * @param cnt : quantità di dati da richiedere al server
 	 * @return lettura dati ottenuti dal server
 	 */
 	@RequestMapping(value="/weather", method=RequestMethod.GET)

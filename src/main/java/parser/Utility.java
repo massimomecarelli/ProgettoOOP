@@ -58,8 +58,8 @@ public class Utility {
 	}
 	/**
 	 * Metodo ausiliaro per popolare un oggetto di tipo Weather a partire da un JSONObject
-	 * @param Jobject JSONObject da cui prendere i dati
-	 * @return wet oggetto Weather popolato
+	 * @param Jobject : JSONObject da cui prendere i dati
+	 * @return wet : oggetto Weather popolato
 	 */
 	
 	public Weather fillWet(JSONObject Jobject) {
@@ -83,8 +83,8 @@ public class Utility {
 
 	/**
 	 * Metodo ausiliaro per popolare uno JSONObject a partire da un oggetto di tipo Weather
-	 * @param wet oggetto di tipo Weather da cui prendere i dati
-	 * @return Jobject JSONObject popolato
+	 * @param wet : oggetto di tipo Weather da cui prendere i dati
+	 * @return Jobject : JSONObject popolato
 	 */
 	
 	public JSONObject fillObject(Weather wet) {
@@ -109,9 +109,9 @@ public class Utility {
 	/**
 	 * Metodo ausiliario per riempire un vettore di Weather, a partire dai dati ricevuti da OpenWeather.
 	 * I dati ricevuti sono stati divisi in due oggetti per facilitarne la lettura.
-	 * @param dt primo set di dati di OpenWeather
-	 * @param city secondo set di dati di OpenWeather
-	 * @return weather vettore di Weather popolato
+	 * @param dt : primo set di dati ottenuti da OpenWeather
+	 * @param city : secondo set di dati ottenuti da OpenWeather
+	 * @return weather : vettore di Weather popolato
 	 */
 	
 	public Vector<Weather> setData(JSONArray dt, JSONObject city) {
@@ -145,13 +145,13 @@ public class Utility {
 		return weather;
 	}
 
-	/***
+	/**
 	 * Metodo ausiliario per riempire un oggetto di tipo Weather, a partire dai dati ricevuti da OpenWeather.
 	 * I dati ricevuti sono stati divisi in due oggetti per facilitarne la lettura.
-	 * @param dt primo set di dati di OpenWeather
-	 * @param city secondo set di dati di OpenWeather
-	 * @return wet oggetto di tipo Weather popolato
-	 * @throws JSONException eccezione usata per gestire eventuali erroi nella lettura dei JSON
+	 * @param dt : primo set di dati di OpenWeather
+	 * @param city : secondo set di dati di OpenWeather
+	 * @return wet : oggetto di tipo Weather popolato
+	 * @throws JSONException : eccezione usata per gestire eventuali erroi nella lettura dei JSON
 	 */
 	
 	public Weather getWet(JSONArray dt, JSONObject city) {
@@ -179,7 +179,14 @@ public class Utility {
 		return wet;
 	}
 	
-	
+	/**
+	 * Metodo ausiliaro per effettuare una rischiesta ad OpenWeather sulle condizioni metereologiche attuali.
+	 * Questo metodo è simile a quello presente in JsonParser (readAPI), con la differenza che i dati ottenuti da questa chiamata
+	 * non verrannò salvati all'interno del file Weather.json.
+	 * @param lat : latitudine della città;
+	 * @param lon : longitudine della città;
+	 * @return wet : oggetto di tipo Weather che conterrà i dati relativi alle condizioni meterologiche attuali di una determinata città.
+	 */
 	public Weather getActual(double lat, double lon) {
 		
 		Weather wet = null;

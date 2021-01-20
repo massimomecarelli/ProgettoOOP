@@ -32,9 +32,10 @@ public class StatsRequest {
 	/**
 	 * Metodo che calcola la media di temperatura degli ultimi giorni (inserito dall'utente)
 	 *  ritornando un oggetto che possiede come parametri la temperatura media e la media percepita
-	 * @param lat 
-	 * @param lon 
-	 * @param cnt
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt lasso di tempo su cui generare le statistiche
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
 	 * @return WeatherCollection
 	 * @throws FileIsEmpty
 	 * @throws FileNotFound 
@@ -70,10 +71,10 @@ public class StatsRequest {
 	/**
 	 * Metodo che prende il valore massimo delle temperature in un determinato lasso di tempo (deciso dall'utente), di una città scelta dall'utente
 	 * tramite l'inserimento delle cue coordinate.
-	 * @param lat 
-	 * @param lon 
-	 * @param cnt
-	 * @return void
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt lasso di tempo su cui generare le statistiche
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
 	 * @throws FileNotFound 
 	 * @throws FileIsEmpty
 	 */
