@@ -1,6 +1,3 @@
-/**
- * 
- */
 package model;
 
 import filtri.WeatherFilteredArchive;
@@ -9,6 +6,7 @@ import filtri.WeatherFilteredArchive;
  * Classe che implementa l'interfaccia WeatherFilteredArchive
  * per permettere l'estrazione dei soli parametri riguardanti le temperature
  * da un archivio di tipo Weather.
+ * 
  * @implements WeatherFilteredArchive
  */
 public class WeatherTemp implements WeatherFilteredArchive {

@@ -20,7 +20,13 @@ import org.json.JSONObject;
 import org.springframework.web.client.RestTemplate;
 
 import model.Weather;
-
+/**
+ * 
+ * @author Marco Pasquale Martino
+ * 
+ * Classe che contiene vari metodi ausiliari utilizzati da varie classi del programma.
+ *
+ */
 public class Utility {
 	
 	public Utility() {

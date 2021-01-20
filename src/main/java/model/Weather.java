@@ -2,6 +2,8 @@ package model;
 
 /**
  * Classe che contiene tutti i parametri utili a descrivere le previsioni.
+ * @author Marco Pasquale Martino
+ * @author Massimo Mecarelli
  */
 public class Weather {
 	/**
