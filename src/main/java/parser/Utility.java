@@ -57,9 +57,9 @@ public class Utility {
 		return true;
 	}
 	/**
-	 * Metodo ausiliaro per popolare un oggetto di tipo Weather a partire da un JSONObject
-	 * @param Jobject : JSONObject da cui prendere i dati
-	 * @return wet : oggetto Weather popolato
+	 * Metodo ausiliaro per popolare un oggetto di tipo Weather a partire da un JSONObject.
+	 * @param Jobject : JSONObject da cui prendere i dati.
+	 * @return wet : oggetto Weather popolato.
 	 */
 	
 	public Weather fillWet(JSONObject Jobject) {
@@ -82,7 +82,7 @@ public class Utility {
 	}
 
 	/**
-	 * Metodo ausiliaro per popolare uno JSONObject a partire da un oggetto di tipo Weather
+	 * Metodo ausiliaro per popolare uno JSONObject a partire da un oggetto di tipo Weather.
 	 * @param wet : oggetto di tipo Weather da cui prendere i dati
 	 * @return Jobject : JSONObject popolato
 	 */
@@ -109,9 +109,9 @@ public class Utility {
 	/**
 	 * Metodo ausiliario per riempire un vettore di Weather, a partire dai dati ricevuti da OpenWeather.
 	 * I dati ricevuti sono stati divisi in due oggetti per facilitarne la lettura.
-	 * @param dt : primo set di dati ottenuti da OpenWeather
-	 * @param city : secondo set di dati ottenuti da OpenWeather
-	 * @return weather : vettore di Weather popolato
+	 * @param dt : primo set di dati ottenuti da OpenWeather;
+	 * @param city : secondo set di dati ottenuti da OpenWeather;
+	 * @return weather : vettore di Weather popolato.
 	 */
 	
 	public Vector<Weather> setData(JSONArray dt, JSONObject city) {
@@ -148,9 +148,9 @@ public class Utility {
 	/**
 	 * Metodo ausiliario per riempire un oggetto di tipo Weather, a partire dai dati ricevuti da OpenWeather.
 	 * I dati ricevuti sono stati divisi in due oggetti per facilitarne la lettura.
-	 * @param dt : primo set di dati di OpenWeather
-	 * @param city : secondo set di dati di OpenWeather
-	 * @return wet : oggetto di tipo Weather popolato
+	 * @param dt : primo set di dati di OpenWeather;
+	 * @param city : secondo set di dati di OpenWeather;
+	 * @return wet : oggetto di tipo Weather popolato.
 	 * @throws JSONException : eccezione usata per gestire eventuali erroi nella lettura dei JSON
 	 */
 	
