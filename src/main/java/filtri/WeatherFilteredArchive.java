@@ -5,7 +5,7 @@ import model.Weather;
 /**
  *	@author Massimo Mecarelli
  *
- * Interfaccia che permette di filtrare un archivio di tipo Weather
+ * Interfaccia che permette di filtrare un archivio di tipo Weather.
  */
 
 public interface WeatherFilteredArchive{

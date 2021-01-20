@@ -12,9 +12,9 @@ import model.WeatherTemp;
 import parser.JsonParser;
 
 /**
+ * Classe che restituisce dati utili direttamente a WeatherService.
  * @author Massimo Mecarelli
- * 
- * Classe che restituisce dati utili direttamente a WeatherService
+ * @author Marco Pasquale Martino
  */
 public class StatsRequest {
 	

@@ -3,8 +3,6 @@ package model;
 import filtri.WeatherFilteredArchive;
 
  /**
- *	@author Massimo
- *
  * Classe che implementa l'interfaccia WeatherFilteredArchive
  * per permettere l'estrazione dei soli parametri riguardanti la pressione
  * da un archivio di tipo Weather.

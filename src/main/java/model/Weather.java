@@ -1,9 +1,7 @@
 package model;
 
 /**
- * Description of Weather.
- * 
- * @author Massimo
+ * Classe che contiene tutti i parametri utili a descrivere le previsioni.
  */
 public class Weather {
 	/**

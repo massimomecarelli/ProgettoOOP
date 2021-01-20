@@ -1,8 +1,6 @@
 package model;
 
 /**
- * @author Massimo
- * 
  * Classe che contiene i parametri riguardanti le temperature medie
  */
 public class WeatherCollection {
