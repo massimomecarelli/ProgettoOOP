@@ -6,21 +6,63 @@ package model;
  *
  */
 public class ModelError {
+	/**
+	 * Indica il nome della città.
+	 */
 	private String nome;
+	/**
+	 * Indica la data in cui è stata effettuata la lettura.
+	 */
 	private String dataLettura;
+	/**
+	 * Indica il giorno a cui si riferiscono i dati.
+	 */
 	private String giornoPrevisto;
+	/**
+	 * Indica l'errore percentuale tra i dati previsti e quelli effettivi.
+	 */
 	private String erroreLettura;
+	/**
+	 * Indica la temperatura massima prevista.
+	 */
 	private double tempMaxPrevista;
+	/**
+	 * Indica la temperatura massima effettiva.
+	 */
 	private double tempMaxCorretta;
+	/**
+	 * Indica la temperatura minima prevista.
+	 */
 	private double tempMinPrevista;
+	/**
+	 * Indica la temperatura minima effettiva.
+	 */
 	private double tempMinCorretta;
-	private double tempPercepitàPrevista;
-	private double tempPercepitàCorretta;
+	/**
+	 * Indica la temperatura percepita prevista.
+	 */
+	private double tempPercepitaPrevista;
+	/**
+	 * Indica la temperatura percepita effettiva.
+	 */
+	private double tempPercepitaCorretta;
+	/**
+	 * Indica la pressione prevista.
+	 */
 	private int pressionePrevista;
+	/**
+	 * Indica la pressione effettiva.
+	 */
 	private int pressioneCorretta;
 	
+	/**
+	 * Costruttore che inizializza ogni attributo della classe ModelError.
+	 * @param wet : oggetto di tipo Weather da cui prendere i dati "previsti";
+	 * @param actual : oggetto di tipo Weather da cui prendere i dati "corretti";
+	 * @param error : stringa contenente l'errore percentuale tra i dati previsti e quelli corretti.
+	 */
 	public ModelError(Weather wet, Weather actual, String error) {
-		this.erroreLettura=error;
+		setErroreLettura(error);
 		setNome(wet.getNome());
 		setGiornoPrevisione(wet.getGiorno());
 		setDataLettura(wet.getDataLettura());
@@ -29,8 +71,8 @@ public class ModelError {
 		setTempMaxCorretta(actual.getTempMax());
 		setTempMinPrevista(wet.getTempMin());
 		setTempMinCorretta(actual.getTempMin());
-		setTempPercepitàPrevista(wet.getTempPercepita());
-		setTempPercepitàCorretta(actual.getTempPercepita());
+		setTempPercepitaPrevista(wet.getTempPercepita());
+		setTempPercepitaCorretta(actual.getTempPercepita());
 		setPressionePrevista(wet.getPressione());
 		setPressioneCorretta(actual.getPressione());
 	}
@@ -59,7 +101,10 @@ public class ModelError {
 	public void setGiornoPrevisione(String giornoPrevisto) {
 		this.giornoPrevisto=giornoPrevisto;
 	}
-	
+	/**
+	 * Metodo per impostare l'errore percentuale tra dati previsti e dati corretti.
+	 * @param erroreLettura : errore percentuale tra i dati.
+	 */
 	public void setErroreLettura(String erroreLettura) {
 		this.erroreLettura=erroreLettura;
 	}
@@ -84,8 +129,8 @@ public class ModelError {
 	 * Metodo per impostare la temperatura percepita prevista.
 	 * @param tempPercepita : temperatura percepita prevista.
 	 */
-	public void setTempPercepitàPrevista(double tempPercepità) {
-		tempPercepitàPrevista=tempPercepità;
+	public void setTempPercepitaPrevista(double tempPercepita) {
+		tempPercepitaPrevista=tempPercepita;
 	}
 	
 	/**
@@ -114,10 +159,10 @@ public class ModelError {
 
 	/**
 	 * Metodo per impostare la temperatura percepita corretta.
-	 * @param tempPercepità : temperatura percepita corretta.
+	 * @param tempPercepita : temperatura percepita corretta.
 	 */
-	public void setTempPercepitàCorretta(double tempPercepità) {
-		tempPercepitàCorretta=tempPercepità;
+	public void setTempPercepitaCorretta(double tempPercepita) {
+		tempPercepitaCorretta=tempPercepita;
 	}
 
 	/**
@@ -196,16 +241,16 @@ public class ModelError {
 	 * Metodo che restituisce la temperatura percepita prevista.
 	 * @return tempPercerpitaPrevista : temperatura percepita prevista.
 	 */
-	public double getTempPercepitàPrevista() {
-		return tempPercepitàPrevista;
+	public double getTempPercepitaPrevista() {
+		return tempPercepitaPrevista;
 	}
 
 	/**
 	 * Metodo che restituisce la temperatura percepita corretta.
 	 * @return tempPercerpitaCorretta : temperatura percepita corretta.
 	 */
-	public double getTempPercepitàCorretta() {
-		return tempPercepitàCorretta;
+	public double getTempPercepitaCorretta() {
+		return tempPercepitaCorretta;
 	}
 
 	/**

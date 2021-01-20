@@ -9,10 +9,10 @@ import java.util.Vector;
  */
 
 public interface StatsAverageInterface {
-	/*
+	/**
 	 * Metodo che calcola la media dei valori di un vettore.
-	 * @param Vector<Double>
-	 * @return double
+	 * @param vett : vettore contente i dati di cui calcolare la media.
+	 * @return media dei valori contenuti nel vettore di Double.
 	 */
-			public double getMedia(Vector<Double> vett);
+	public double getMedia(Vector<Double> vett);
 }

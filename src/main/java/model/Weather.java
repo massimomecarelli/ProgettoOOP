@@ -7,51 +7,70 @@ package model;
  */
 public class Weather {
 	/**
-	 * Valorori che indicano le coordinate cartesiane di una città.
+	 * Attributo che indica la latitudine della città.
 	 */
 	private double lat=0;
+	/**
+	 * Attributo che indica la longitudine della città.
+	 */
 	private double lon=0;
 	/**
-	 * Valore che indica la pressione in un giorno.
+	 * Attributo che indica la pressione in un giorno.
 	 */
 	private int Pressione = 0;
 
 	/**
-	 * Valore che indica la temperatura percepita in un giorno.
+	 * Attributo che indica la temperatura percepita in un giorno.
 	 */
 	private double TempPercepita = 0;
 
 	/**
-	 * Valore che indica il giorno.
+	 * Attributo che indica il giorno.
 	 */
 	private int dateTime = 0;
 
 	/**
-	 * Valore che indica il giorno in dd/MM/yyyy.
+	 * Attributo che indica il giorno in dd/MM/yyyy.
 	 */
 	private String giorno = "";	
 	/**
-	 * Valore che indica il nome della città.
+	 * Attributo che indica il nome della città.
 	 */
 	private String Nome = "";
 
 	/**
-	 * Valore che indica la temperatura massima raggiungibile in un giorno.
+	 * Attributo che indica la temperatura massima raggiungibile in un giorno.
 	 */
 	private double TempMax = 0;
 
 	/**
-	 * Valore che indica la temperatura minima raggiungibile in un giorno.
+	 * Attributo che indica la temperatura minima raggiungibile in un giorno.
 	 */
 	private double TempMin = 0;
 	
 	/**
-	 * Valore che indica la data in cui è stata fatta la lettura
+	 * Attributo che indica la data in cui è stata fatta la lettura
 	 */
 	private String dataLettura;
 	
+	/**
+	 * Costruttore nullo.
+	 */
 	public Weather() { }
 	
+	/**
+	 * Costruttore che inizializza gli attributi della classe Weather.
+	 * @param lat : latitudine della città.
+	 * @param lon : longitudine della città.
+	 * @param min : valore di temperatura minimo.
+	 * @param max : valore di temperatura massimo.
+	 * @param perc : valore di temperatura percepito.
+	 * @param press : valore di pressione.
+	 * @param dt : valore del datetime.
+	 * @param dataLett : giorno in cui è stata effettuata la lettura.
+	 * @param giorno : giorno a cui si riferiscono i dati.
+	 * @param nome : nome della città.
+	 */
 	public Weather(double lat,double lon, double min, double max, double perc, int press, int dt, String dataLett, String giorno, String nome) {
 		setLat(lat);
 		setLon(lon);
@@ -202,7 +221,7 @@ public class Weather {
 	
 	/**
 	 * Metodo per impostare la pressione.
-	 * @param pressione
+	 * @param pressione : pressione
 	 */
 	public void setPressione(int pressione) {
 		this.Pressione=pressione;

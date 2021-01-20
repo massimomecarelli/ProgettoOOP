@@ -18,12 +18,21 @@ import parser.JsonParser;
  */
 public class StatsRequest {
 	
+	/**
+	 * Attributo che contiene il valore massimo di una sequenza.
+	 */
 	private double Max;
+	/**
+	 * Attributo che contiene il valore minimo di una sequenza.
+	 */
 	private double Min;
+	/**
+	 * Attributo che contien il nome della città a cui si riferiscono max e min.
+	 */
 	private String nome;
 
 	/**
-	 * Costruttore
+	 * Costruttore nullo.
 	 */
 	public StatsRequest() {
 		
@@ -36,9 +45,9 @@ public class StatsRequest {
 	 * @param lon longitudine della città
 	 * @param cnt lasso di tempo su cui generare le statistiche
 	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
-	 * @return WeatherCollection
-	 * @throws FileIsEmpty
-	 * @throws FileNotFound 
+	 * @return WeatherCollection : oggetto contente i dati relativi alla temperatura media e percepita.
+	 * @throws FileIsEmpty : eccezione che gestisce eventuali errori dovuti ad un file vuoto.
+	 * @throws FileNotFound : eccezione che gestisce eventuali errori dovuti ad un file non trovato.
 	 */
 	public WeatherCollection getTemperatureAvrg(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		Vector<Weather> weather = new Vector<Weather>();
@@ -75,8 +84,8 @@ public class StatsRequest {
 	 * @param lon longitudine della città
 	 * @param cnt lasso di tempo su cui generare le statistiche
 	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
-	 * @throws FileNotFound 
-	 * @throws FileIsEmpty
+	 * @throws FileIsEmpty : eccezione che gestisce eventuali errori dovuti ad un file vuoto.
+	 * @throws FileNotFound : eccezione che gestisce eventuali errori dovuti ad un file non trovato.
 	 */
 	public void setTemperatureMax(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		Vector<WeatherTemp> weatherTemp = new Vector<WeatherTemp>();
@@ -101,12 +110,12 @@ public class StatsRequest {
 
 	/**
 	 * Metodo che prende il valore minimo delle temperature nei giorni precedenti (inserito dall'utente)
-	 * @param lat 
-	 * @param lon 
-	 * @param cnt
-	 * @return void
-	 * @throws FileNotFound 
-	 * @throws FileIsEmpty
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt lasso di tempo su cui generare le statistiche
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @throws FileIsEmpty : eccezione che gestisce eventuali errori dovuti ad un file vuoto.
+	 * @throws FileNotFound : eccezione che gestisce eventuali errori dovuti ad un file non trovato.
 	 */
 	public void setTemperatureMin(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		Vector<WeatherTemp> weatherTemp = new Vector<WeatherTemp>();
@@ -132,12 +141,12 @@ public class StatsRequest {
 	
 	/**
 	 * Metodo che prende il valore massimo delle pressioni nei giorni precedenti (inserito dall'utente)
-	 * @param lat 
-	 * @param lon 
-	 * @param cnt
-	 * @return void
-	 * @throws FileNotFound 
-	 * @throws FileIsEmpty
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt lasso di tempo su cui generare le statistiche
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @throws FileIsEmpty : eccezione che gestisce eventuali errori dovuti ad un file vuoto.
+	 * @throws FileNotFound : eccezione che gestisce eventuali errori dovuti ad un file non trovato.
 	 */
 	public void setPressMassima(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		Vector<Weather> weather = new Vector<Weather>();
@@ -162,12 +171,12 @@ public class StatsRequest {
 
 	/**
 	 * Metodo che prende il valore minimo delle pressioni nei giorni precedenti (inserito dall'utente)
-	 * @param lat 
-	 * @param lon 
-	 * @param cnt
-	 * @return void
-	 * @throws FileNotFound 
-	 * @throws FileIsEmpty
+	 * @param lat latitudine della città
+	 * @param lon longitudine della città
+	 * @param cnt lasso di tempo su cui generare le statistiche
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @throws FileIsEmpty : eccezione che gestisce eventuali errori dovuti ad un file vuoto.
+	 * @throws FileNotFound : eccezione che gestisce eventuali errori dovuti ad un file non trovato.
 	 */
 	public void setPressMinima(double lat, double lon, int cnt, HttpServletResponse response) throws FileIsEmpty, FileNotFound{
 		Vector<Weather> weather = new Vector<Weather>();

@@ -9,6 +9,9 @@ import model.Weather;
  */
 
 public interface WeatherFilteredArchive{
-
+	/**
+	 * Metodo ausiliario per impostare dei dati.
+	 * @param weather : oggetto di tipo weather contenente diversi tipi di dati.
+	 */
 	public void setter(Weather weather);
 }

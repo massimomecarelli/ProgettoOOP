@@ -17,23 +17,42 @@ import model.Weather;
 import model.ModelError;
 import parser.Utility;
 
+/**
+ * Classe che si occupa di gestire il calcolo dell'errore percentuale tra i dati metereologici letti in precedenza e quelli attuali.
+ * @author Marco Pasquale Martino
+ */
 public class ErrorFilter {
+	
+	/**
+	 * Vettore di Weather in cui verranno memorizzati i dati letti dal file.
+	 */
 	private Vector<Weather> weather;
 	
+	/**
+	 * Costruttore che inizializza glia ttributi della classe.
+	 */
 	public ErrorFilter() {
 		weather=new Vector<Weather>();
 	}
 	
+	/**
+	 * Metodo utilizzato per assegnare dei valori al vettore di Weather.
+	 * @param weather : vettore di Weather contente i dati.
+	 */
 	public void setWeather(Vector<Weather> weather) {
 		this.weather=weather;
 	}
 	
+	/**
+	 * Metodo che restituisce un vettore di Weather contente i dati con cui è stato calcolato l'errore
+	 * @return weather : vettore di Weather contente i dati.
+	 */
 	public Vector<Weather> getWeather(){
 		return weather;
 	}
 	
 	/**
-	 * Metodo che legge i dati da file weather.json, dopo di che calcola l'errore per ogni dato in base ai dati attuali e popola il Vector<Weather>
+	 * Metodo che legge i dati da file weather.json, dopo di che calcola l'errore per ogni dato in base ai dati attuali e popola il vettore di Weather
 	 * in base alla percentuale massima tollerata, se l'errore calcolato è minore o uguale a quello massimo, i dati verranno inseriti, altrimenti saranno scartati.
 	 * @param lat latitudine della città
 	 * @param lon longitudine della città

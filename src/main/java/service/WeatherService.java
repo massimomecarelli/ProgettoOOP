@@ -41,8 +41,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RestController
 public class WeatherService {
 
+	/**
+	 * Attributo contenente la key per API di OpenWeathe.
+	 */
 	private static String key;
+	/**
+	 * Vettore contente la latitudine di 5 città predefinite.
+	 */
 	private static double[] lat=new double[5];
+	/**
+	 * Vettore contente la longitudine di 5 città predefinite.
+	 */
 	private static double[] lon=new double[5];
 
 	/**
@@ -160,6 +169,8 @@ public class WeatherService {
 	 * @param lon longitudine della città
 	 * @param cnt lasso di tempo su cui generare le statistiche
 	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @throws FileIsEmpty : eccezione che gestisce eventuali errori dovuti ad un file vuoto.
+	 * @throws FileNotFound : eccezione che gestisce eventuali errori dovuti ad un file non trovato.
 	 * @return statistiche calcolate
 	 */
 	@RequestMapping(value="/stats/temperature/maxmin", method=RequestMethod.GET)
@@ -189,12 +200,13 @@ public class WeatherService {
 		return null;
 	}
 
-	/*
+	/**
 	* Metodo che restituisce la temperatura media e la temperatura media percepita in un lasso di tempo e in una città, entrambi decisi dall'utente 
 	* tramite i paramentri della chiamata.
 	* @param lat latitudine della città
 	* @param lon longitudine della città
 	* @param cnt lasso di tempo su cui generare le statistiche
+	* @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
 	* @return statistiche calcolate
 	*/
 	@RequestMapping(value="/stats/temperature/medie", method=RequestMethod.GET)

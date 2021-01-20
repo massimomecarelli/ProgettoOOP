@@ -33,9 +33,21 @@ import errors.FileNotFound;
  */
 public class JsonParser {
 	
+	/**
+	 * Attributo per memorizzare JSONObject ottenuti da OpenWeather.
+	 */
 	private JSONObject Jobject;
+	/**
+	 * Attributo utilizzato per memorizzare i dati ottenuti convertendo il JSONObject.
+	 */
 	private Vector<Weather> weather=new Vector<Weather>();
+	/**
+	 * Attributo utlizzato per memorizzare temporanemente un oggetto Weather.
+	 */
 	private Weather wet;
+	/**
+	 * Istanza di una classe per utilizzare dei metodi ausiliari.
+	 */
 	private Utility util=new Utility();
 	
 	/**
@@ -49,8 +61,8 @@ public class JsonParser {
 	 * Questo metodo si occupa di effettuare la richiesta all'API di OpenWeather, dopo aver ricevuto risposta
 	 * il metodo popolera il Vector weather, da fortnire in output all'utente, tramite il metodo setData.
 	 * Infine richiamera il metodo writeFile per la scrittura dei dati sul file .json locale.
-	 * 
 	 * @param url : Stringa contente url di OpenWeather per la richiesta dei dati.
+	 * @return weather : oggetto contente i dati ricevuti da OpenWeather.
 	 */
 	public Vector<Weather> readAPI(String url) {
 		RestTemplate restTemplate = new RestTemplate();
@@ -105,9 +117,10 @@ public class JsonParser {
 	 * @param lat : latitudine della città ricercata;
 	 * @param lon : longitudine della città ricercata;
 	 * @param cnt : quantità di dati richiesta;
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
 	 * @return weather : Vector di Weather contenente i dati letti dal file. 
 	 * 		   Il metodo potrebbe restituire null nel caso in cui ci siano dei problemi nella lettura del file.
-	 * @throws FileNotFound 
+	 * @throws FileNotFound eccezione per gestire eventuali errori per la mancanza di file 
 	 */
 
 	public Vector<Weather> readFile(double lat, double lon, int cnt,HttpServletResponse response) throws FileNotFound{
@@ -140,7 +153,17 @@ public class JsonParser {
 		}
 		return null;
 	}
-	
+	/**
+	 * Metodo utilizzato per leggere i dati da un file, è simile a readFile ma effettua un controllo in meno poiché i dati letti
+	 * non verranno mostrati direttamente all'utente, ma elaborati dalla classe statsRequest.
+	 * @param lat : latitudine della città ricercata;
+	 * @param lon : longitudine della città ricercata;
+	 * @param cnt : quantità di dati richiesta;
+	 * @param response paramento ottenuto dal server, utilizzato per gestire eventuali errori
+	 * @return weather : Vector di Weather contenente i dati letti dal file. 
+	 * 		   Il metodo potrebbe restituire null nel caso in cui ci siano dei problemi nella lettura del file.
+	 * @throws FileNotFound eccezione per gestire eventuali errori per la mancanza di file 
+	 */
 	public Vector<Weather> readFileStats(double lat, double lon, int cnt,HttpServletResponse response) throws FileNotFound{
 		File file=new File("src/main/resources/Weather.json");
 		try {

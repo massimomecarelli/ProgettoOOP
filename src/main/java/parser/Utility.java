@@ -29,6 +29,9 @@ import model.Weather;
  */
 public class Utility {
 	
+	/**
+	 * Costruttore nullo.
+	 */
 	public Utility() {
 		
 	}
@@ -157,9 +160,7 @@ public class Utility {
 	 * @param dt : primo set di dati di OpenWeather;
 	 * @param city : secondo set di dati di OpenWeather;
 	 * @return wet : oggetto di tipo Weather popolato.
-	 * @throws JSONException : eccezione usata per gestire eventuali erroi nella lettura dei JSON
 	 */
-	
 	public Weather getWet(JSONArray dt, JSONObject city) {
 		
 		Weather wet=new Weather();
